@@ -24,7 +24,7 @@ const AddColor: FC<Props> = ({ isHidden, index }) => {
   const allColors = useGetColorsFromUrl()
 
   const addColor = () => {
-    if (allColors.length >= 8) return
+    if (allColors.length >= 6) return
 
     addColorToUrl()
     dispatch(insertColor({

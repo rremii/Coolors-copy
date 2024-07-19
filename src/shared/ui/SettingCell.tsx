@@ -3,14 +3,14 @@ import { FC, ReactNode } from "react"
 
 interface Props {
   isHidden: boolean
-  onClick: () => void
+  onClick: (arg: void) => void
   icon: ReactNode
 }
 
 export const SettingCell: FC<Props> = ({ isHidden, icon, onClick }) => {
 
 
-  return <SettingCellLayout onClick={onClick} $isHidden={isHidden}>
+  return <SettingCellLayout onClick={() => onClick()} $isHidden={isHidden}>
     {icon}
   </SettingCellLayout>
 }
