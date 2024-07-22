@@ -1,25 +1,29 @@
 import styled from "styled-components"
-import { FC, forwardRef, ReactNode } from "react"
+import React, { FC, forwardRef } from "react"
 
 interface Props {
   isHidden?: boolean
   onClick?: (arg: void) => void
+  styles?: React.CSSProperties | null
 }
 
-export const SettingBtn: FC<Props> = forwardRef(({ children, isHidden, onClick }, ref) => {
+export const SettingBtn: FC<Props> = forwardRef(({ children, isHidden, onClick, styles }, ref) => {
 
 
-  return <SettingCellLayout ref={ref} onClick={onClick} $isHidden={isHidden}>
+  return <SettingCellLayout $styles={styles} ref={ref} onClick={onClick} $isHidden={isHidden}>
     {children}
   </SettingCellLayout>
 })
 const SettingCellLayout = styled.button<{
   $isHidden?: boolean
+  styles?: React.CSSProperties | null
 }>`
+    ${({ $styles }) => $styles || ""}
+
     padding: 10px;
     cursor: pointer;
     border-radius: 10px;
-    transition: .2s;
+    transition: 0.2s; //todo does not work
     pointer-events: ${({ $isHidden }) => $isHidden ? "none" : "initial"};
     opacity: ${({ $isHidden }) => $isHidden ? 0 : 1};
 

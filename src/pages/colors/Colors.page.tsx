@@ -1,10 +1,14 @@
 import styled from "styled-components"
-import { useSetDefaultColorsFromUrl } from "@entities/colors/model/useSetDefaultColorsFromUrl.tsx"
+import { useSetDefaultColorsFromUrl } from "@widgets/model/useSetDefaultColorsFromUrl.tsx"
 import { ColorsDragNDrop } from "@widgets/ColorsDragNDrop/ui/ColorsDragNDrop.tsx"
+import { useRandomizeColorsKeyPress } from "@widgets/model/useRandomizeColorsKeyPress.tsx"
+import { KeyCodes } from "@shared/hooks/useKeyPress.tsx"
 
 export const ColorsPage = () => {
 
   useSetDefaultColorsFromUrl()
+
+  useRandomizeColorsKeyPress(KeyCodes.space)
 
 
   return <ColorsPageLayout>

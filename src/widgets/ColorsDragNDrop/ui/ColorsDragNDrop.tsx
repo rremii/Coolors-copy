@@ -16,7 +16,6 @@ export const ColorsDragNDrop = () => {
 
   const setNewColors = (colors: IColorCell[]) => {
 
-    console.log(colors)
     dispatch(setHasMountAnimation(false))
     setColorsToUrl(colors.map(({ color }) => color))
     dispatch(setColors(colors))
@@ -25,7 +24,7 @@ export const ColorsDragNDrop = () => {
   const screenWidth = useRef<number>(document.body.clientWidth)
 
 
-  const axis = screenWidth.current <= 768 ? "Y" : "X"
+  const axis = screenWidth.current <= 768 ? "Y" : "X" //todo
   const {
     deltaAxisCoord,
     indexShifts,
@@ -41,7 +40,7 @@ export const ColorsDragNDrop = () => {
       const isDragged = index === dragIndex
 
       const styles = {
-        transition: isDragged ? "0s" : "0.2s",
+        // transition: isDragged ? "0s" : "0.3s",
         transform: `translate${axis}(${isDragged ? deltaAxisCoord + "px" : indexShifts[index] * 100 + "%"})`,
         pointerEvents: isDragged ? "none" : "initial",
         zIndex: isDragged ? 100 : colors.length - index

@@ -6,7 +6,6 @@ import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
 import { insertColor } from "@entities/colors/model/colorsSlice.ts"
 import { useGetNewColorByIndex } from "@entities/colors/model/useGetNewColorByIndex.tsx"
 import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
-import { SettingBtn } from "@shared/ui/SettingBtn.tsx"
 
 interface Props {
   isHidden: boolean

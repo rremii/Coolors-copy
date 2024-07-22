@@ -4,11 +4,12 @@ import DragIcon from "@icons/arrows-horizontal.svg?react"
 
 interface Props {
   isHidden?: boolean
+  iconColor?: string
 }
 
-export const DragColor: FC<Props> = forwardRef(({ isHidden }, ref) => {
+export const DragColor: FC<Props> = forwardRef(({ isHidden, iconColor }, ref) => {
 
   return <SettingBtn ref={ref} isHidden={isHidden}>
-    <DragIcon stroke="white" />
+    <DragIcon stroke={iconColor} />
   </SettingBtn>
 })

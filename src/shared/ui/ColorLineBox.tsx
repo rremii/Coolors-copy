@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { FC, forwardRef, ReactNode, useEffect, useRef } from "react"
+import { FC, forwardRef, ReactNode } from "react"
 import { colorToString } from "@shared/helpers/colorToString.ts"
 import { ColorType } from "@entities/colors/types.ts"
 
@@ -80,13 +80,13 @@ export const ColorLineBoxLayout = styled.div<{
             "animation: 0.4s growDown forwards;" : ""};
 
 
-    &:hover .SettingsBox * {
-        opacity: 1;
-    }
-
-    .SettingsBox * {
-        opacity: 0;
-    }
+    //&:hover .SettingsBox * { //todo
+    //    opacity: 1;
+    //}
+    //
+    //.SettingsBox * {
+    //    opacity: 0;
+    //}
 
 
     @keyframes growUp {

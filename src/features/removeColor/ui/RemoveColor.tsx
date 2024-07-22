@@ -10,10 +10,11 @@ import { SettingBtn } from "@shared/ui/SettingBtn.tsx"
 interface Props extends WithDelayDeleting {
   index: number
   isHidden: boolean
+  iconColor?: string
 }
 
 
-export const RemoveColor: FC<Props> = ({ index, isHidden, delayDeleteCb }) => {
+export const RemoveColor: FC<Props> = ({ index, isHidden, delayDeleteCb, iconColor }) => {
   const dispatch = useAppDispatch()
 
   const { removeColorFromUrl } = useRemoveColorFromUrl(index)
@@ -29,7 +30,7 @@ export const RemoveColor: FC<Props> = ({ index, isHidden, delayDeleteCb }) => {
 
 
   return <SettingBtn onClick={delayDeleteCb<void, void>(handleRemoveColor)} isHidden={isHidden}>
-    <Cross />
+    <Cross fill={iconColor} />
   </SettingBtn>
 }
 

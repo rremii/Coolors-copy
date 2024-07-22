@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ColorType } from "@entities/colors/types.ts"
+import { RootState } from "@shared/store/store.ts"
+import { type } from "node:os"
 
 export interface IColorCell {
   color: ColorType
@@ -8,18 +10,29 @@ export interface IColorCell {
 
 interface initialState {
   colors: IColorCell[]
+  lockedColorsIndexes: number[]
   hasMountAnimation: boolean
 }
 
 const initialState = {
   colors: [],
-  hasMountAnimation: false
+  hasMountAnimation: false,
+  lockedColorsIndexes: []
 } as initialState
 
 export const ColorsSlice = createSlice({
   name: "ColorsSlice",
   initialState,
   reducers: {
+
+    addLockedIndex(state, action: PayloadAction<number>) {
+      if (!state.lockedColorsIndexes.includes(action.payload))
+        state.lockedColorsIndexes.push(action.payload)
+    },
+    removeLockedIndex(state, action: PayloadAction<number>) {
+      state.lockedColorsIndexes = state.lockedColorsIndexes.filter((index) => index !== action.payload)
+    },
+
     setHasMountAnimation(state, action: PayloadAction<boolean>) {
       state.hasMountAnimation = action.payload
     },
@@ -56,6 +69,22 @@ export const ColorsSlice = createSlice({
   }
 })
 
-export const { setColors, createColors, removeColor, insertColor, setHasMountAnimation } = ColorsSlice.actions
+export const {
+  setColors,
+  createColors,
+  removeLockedIndex,
+  addLockedIndex,
+  removeColor,
+  insertColor,
+  setHasMountAnimation
+} = ColorsSlice.actions
 
 export const ColorsReducer = ColorsSlice.reducer
+
+
+export const getIsIndexLocked = createSelector(
+  [
+    (state: RootState, index: number) => state.Colors.lockedColorsIndexes.find((id) => id === index)
+  ],
+  (color) => typeof color === "number"
+)

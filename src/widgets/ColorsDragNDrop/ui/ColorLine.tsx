@@ -6,7 +6,10 @@ import { useTypedSelector } from "@shared/hooks/storeHooks.ts"
 import { ColorType } from "@entities/colors/types.ts"
 import { FC, forwardRef, useState } from "react"
 import { withDeleting, WithDeletingProps } from "@entities/colors/model/with-deleting.tsx"
-import { DragColor } from "@features/DragColor/ui/DragColor.tsx"
+import { DragColor } from "@features/dragColor/ui/DragColor.tsx"
+import { LockColor } from "@features/lockColor/ui/LockColor.tsx"
+import { getContrastColor } from "@shared/helpers/getContrastColor.ts"
+import { ColorName } from "@features/colorName/ui/ColorName.tsx"
 
 interface Props extends WithDeletingProps {
   colorId: number
@@ -34,8 +37,9 @@ const ColorLine: FC<Props> = forwardRef(({
 
 
   const settings = [
-    (props) => <RemoveColor {...props} delayDeleteCb={delayDeleteCb} index={colorIndex} isHidden={!isHovered} />,
-    (props) => <DragColor {...props} ref={dragBtnRef} isHidden={!isHovered} />
+    (props) => <RemoveColor  {...props} delayDeleteCb={delayDeleteCb} index={colorIndex} />,
+    (props) => <DragColor  {...props} ref={dragBtnRef} />,
+    (props) => <LockColor  {...props} colorIndex={colorIndex} />
   ]
 
   return <ColorLineBox
@@ -46,9 +50,13 @@ const ColorLine: FC<Props> = forwardRef(({
     hasUnMountAnimation={isDeleting}
     key={colorId}
     colorHexNode={<div>{rgbToHex(color)}</div>}
-    colorNameNode={<div>Blue</div>}
+    colorNameNode={<ColorName color={color} />}
     settingsNodes={
-      settings.map((Setting, i) => <Setting key={i} />)
+      settings.map((Setting, i) =>
+        <Setting
+          isHidden={!isHovered}
+          iconColor={getContrastColor(color)}
+          key={i} />)
     }
     color={color}
     addColorNode={!isLastIndex ? <AddColorWithOverlay index={colorIndex} /> : null}
