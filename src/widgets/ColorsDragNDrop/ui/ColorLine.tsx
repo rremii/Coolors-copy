@@ -4,26 +4,30 @@ import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
 import { AddColorWithOverlay } from "@features/addColorWithOverlay/ui/AddColorWithOverlay.tsx"
 import { useTypedSelector } from "@shared/hooks/storeHooks.ts"
 import { ColorType } from "@entities/colors/types.ts"
-import { FC, useState } from "react"
+import { FC, forwardRef, useState } from "react"
 import { withDeleting, WithDeletingProps } from "@entities/colors/model/with-deleting.tsx"
+import { DragColor } from "@features/DragColor/ui/DragColor.tsx"
 
 interface Props extends WithDeletingProps {
   colorId: number
   colorIndex: number
   color: ColorType
   isLastIndex: boolean
+  style?: React.CSSProperties
+  dragBtnRef?: (node: HTMLElement) => void
 }
 
-const ColorLine: FC<Props> = ({
-                                colorId,
-                                colorIndex,
-                                isLastIndex,
-                                color,
-                                isDeleting,
-                                delayDeleteCb
-                              }) => {
-
-  const withAnimation = useTypedSelector(state => state.Colors.withAnimation)
+const ColorLine: FC<Props> = forwardRef(({
+                                           colorId,
+                                           colorIndex,
+                                           isLastIndex,
+                                           color,
+                                           isDeleting,
+                                           delayDeleteCb,
+                                           style,
+                                           dragBtnRef
+                                         }, ref) => {
+  const hasMountAnimation = useTypedSelector(state => state.Colors.hasMountAnimation)
 
 
   const [isHovered, setHovered] = useState(false)
@@ -31,12 +35,14 @@ const ColorLine: FC<Props> = ({
 
   const settings = [
     (props) => <RemoveColor {...props} delayDeleteCb={delayDeleteCb} index={colorIndex} isHidden={!isHovered} />,
-    (props) => <RemoveColor {...props} delayDeleteCb={delayDeleteCb} index={colorIndex} isHidden={!isHovered} />
+    (props) => <DragColor {...props} ref={dragBtnRef} isHidden={!isHovered} />
   ]
 
   return <ColorLineBox
+    style={style}
+    ref={ref}
     onHover={setHovered}
-    hasMountAnimation={withAnimation}
+    hasMountAnimation={hasMountAnimation}
     hasUnMountAnimation={isDeleting}
     key={colorId}
     colorHexNode={<div>{rgbToHex(color)}</div>}
@@ -47,6 +53,6 @@ const ColorLine: FC<Props> = ({
     color={color}
     addColorNode={!isLastIndex ? <AddColorWithOverlay index={colorIndex} /> : null}
   />
-}
+})
 
-export const ColorLineWithDeleting = withDeleting(ColorLine, 500)
+export const ColorLineWithDeleting = withDeleting(ColorLine, 400)

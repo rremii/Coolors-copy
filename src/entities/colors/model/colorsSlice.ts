@@ -1,34 +1,37 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ColorType } from "@entities/colors/types.ts"
 
-interface IColorCell {
+export interface IColorCell {
   color: ColorType
   id: number
 }
 
 interface initialState {
   colors: IColorCell[]
-  withAnimation: boolean
+  hasMountAnimation: boolean
 }
 
 const initialState = {
   colors: [],
-  withAnimation: false
+  hasMountAnimation: false
 } as initialState
 
 export const ColorsSlice = createSlice({
   name: "ColorsSlice",
   initialState,
   reducers: {
-    setWithAnimation(state, action: PayloadAction<boolean>) {
-      state.withAnimation = action.payload
+    setHasMountAnimation(state, action: PayloadAction<boolean>) {
+      state.hasMountAnimation = action.payload
     },
-    setColors(state, action: PayloadAction<ColorType[]>) {
+    createColors(state, action: PayloadAction<ColorType[]>) {
       state.colors = action.payload.map((color, index) => ({
           id: index,
           color
         })
       )
+    },
+    setColors(state, action: PayloadAction<IColorCell[]>) {
+      state.colors = action.payload
     },
     insertColor(state, action: PayloadAction<{ index: number, color: ColorType }>) {
       const { index, color } = action.payload
@@ -53,6 +56,6 @@ export const ColorsSlice = createSlice({
   }
 })
 
-export const { setColors, removeColor, insertColor, setWithAnimation } = ColorsSlice.actions
+export const { setColors, createColors, removeColor, insertColor, setHasMountAnimation } = ColorsSlice.actions
 
 export const ColorsReducer = ColorsSlice.reducer

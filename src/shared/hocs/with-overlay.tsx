@@ -1,7 +1,7 @@
 import styled from "styled-components"
-import { useState } from "react"
+import { forwardRef, useState } from "react"
 
-export const withOverlay = (Component) => (props) => {
+export const withOverlay = (Component) => (props => {
 
   const [isHovered, setHovered] = useState(false)
 
@@ -13,9 +13,9 @@ export const withOverlay = (Component) => (props) => {
     setHovered(false)
   }
   return <Overlay onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
-    <Component {...props} isHidden={!isHovered} />
+    <Component  {...props} isHidden={!isHovered} />
   </Overlay>
-}
+})
 
 const Overlay = styled.div`
     display: flex;

@@ -3,7 +3,6 @@ import React, { FC, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { getRandomColor } from "@shared/helpers/getRandomColor.ts"
 import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
-import { useSetColorsFromUrl, useSetDefaultColorsFromUrl } from "@entities/colors/model/useSetDefaultColorsFromUrl.tsx"
 
 interface Props {
   children: React.ReactNode

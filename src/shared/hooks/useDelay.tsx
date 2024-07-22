@@ -30,7 +30,7 @@
 // }
 
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { flushSync } from "react-dom"
 
 export function useDelay(delay: number = 200) {

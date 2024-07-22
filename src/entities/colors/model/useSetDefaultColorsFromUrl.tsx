@@ -1,7 +1,7 @@
 import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
 import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
 import { useEffect } from "react"
-import { setColors, setWithAnimation } from "@entities/colors/model/colorsSlice.ts"
+import { createColors, setHasMountAnimation } from "@entities/colors/model/colorsSlice.ts"
 
 export const useSetDefaultColorsFromUrl = () => {
   const dispatch = useAppDispatch()
@@ -13,9 +13,9 @@ export const useSetDefaultColorsFromUrl = () => {
 
   useEffect(() => {
     if (colors.length)
-      dispatch(setWithAnimation(true))
+      dispatch(setHasMountAnimation(true))
     else
-      dispatch(setColors(colorsFromUrl))
+      dispatch(createColors(colorsFromUrl))
   }, [colorsFromUrl.length, dispatch])
 
 

@@ -28,6 +28,7 @@ const AddColorLayout = styled.div<{
     cursor: pointer;
     transition: .2s ease;
     transform: ${({ $isHidden }) => $isHidden ? "scale(0)" : "scale(1)"};
+    z-index: 10;
 
     &:hover .CrossCont {
         background-color: rgba(0, 0, 0, 0.07);

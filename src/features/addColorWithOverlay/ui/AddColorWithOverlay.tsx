@@ -3,11 +3,10 @@ import { Cross } from "@shared/ui/Cross.tsx"
 import { FC } from "react"
 import { useAddColorToUrl } from "@features/addColorWithOverlay/model/useAddColorToUrl.tsx"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
-import { addNewColor, insertColor } from "@entities/colors/model/colorsSlice.ts"
-import { useNavigate } from "react-router-dom"
-import { useGetColorsByIndex } from "@entities/colors/model/useGetColorsByIndex.tsx"
+import { insertColor } from "@entities/colors/model/colorsSlice.ts"
 import { useGetNewColorByIndex } from "@entities/colors/model/useGetNewColorByIndex.tsx"
 import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
+import { SettingBtn } from "@shared/ui/SettingBtn.tsx"
 
 interface Props {
   isHidden: boolean
