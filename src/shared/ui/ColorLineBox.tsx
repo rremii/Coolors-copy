@@ -152,9 +152,7 @@ const SettingsBox = styled.div`
     }
 `
 const ColorHexBox = styled.div`
-    font-size: 30px;
     margin: 20px 0;
-    font-weight: bold; //todo delete
 `
 const ColorNameBox = styled.div`
     @media screen and (max-width: 768px) {

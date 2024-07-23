@@ -28,6 +28,7 @@ export const ChoosePickerType: FC<Props> = ({ onSubmit }) => {
   </PickerTypeLayout>
 }
 const PickerTypeLayout = styled.div`
+    //height: 240px;
     display: flex;
     flex-direction: column;
     padding: 10px;

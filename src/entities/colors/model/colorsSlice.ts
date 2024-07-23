@@ -46,7 +46,12 @@ export const ColorsSlice = createSlice({
     setColors(state, action: PayloadAction<IColorCell[]>) {
       state.colors = action.payload
     },
-    insertColor(state, action: PayloadAction<{ index: number, color: ColorType }>) {
+    replaceColor(state, action: PayloadAction<{ index: number, color: ColorType }>) {
+      const { color, index } = action.payload
+
+      state.colors = state.colors.map((colorCell, i) => i === index ? { color, id: colorCell.id } : colorCell)
+    },
+    insertNewColor(state, action: PayloadAction<{ index: number, color: ColorType }>) {
       const { index, color } = action.payload
 
 
@@ -75,8 +80,9 @@ export const {
   removeLockedIndex,
   addLockedIndex,
   removeColor,
-  insertColor,
-  setHasMountAnimation
+  insertNewColor,
+  setHasMountAnimation,
+  replaceColor
 } = ColorsSlice.actions
 
 export const ColorsReducer = ColorsSlice.reducer

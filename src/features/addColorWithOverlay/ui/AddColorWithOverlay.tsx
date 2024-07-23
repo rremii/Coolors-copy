@@ -3,7 +3,7 @@ import { Cross } from "@shared/ui/Cross.tsx"
 import { FC } from "react"
 import { useAddColorToUrl } from "@features/addColorWithOverlay/model/useAddColorToUrl.tsx"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
-import { insertColor, setHasMountAnimation } from "@entities/colors/model/colorsSlice.ts"
+import { insertColor, insertNewColor, setHasMountAnimation } from "@entities/colors/model/colorsSlice.ts"
 import { useGetNewColorByIndex } from "@entities/colors/model/useGetNewColorByIndex.tsx"
 import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
 import { flushSync } from "react-dom"
@@ -26,7 +26,7 @@ const AddColor: FC<Props> = ({ isHidden, index }) => {
     if (allColors.length >= 6) return
 
     addColorToUrl()
-    dispatch(insertColor({
+    dispatch(insertNewColor({
       color: newColor,
       index
     }))

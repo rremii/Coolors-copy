@@ -52,7 +52,8 @@ const ColorLine: FC<Props> = forwardRef(({
     hasMountAnimation={hasMountAnimation}
     hasUnMountAnimation={isDeleting}
     key={colorId}
-    colorHexNode={<ColorPickerWithBtn decorationColor={getContrastColor(color)}>{rgbToHex(color)}</ColorPickerWithBtn>}
+    colorHexNode={<ColorPickerWithBtn decorationColor={getContrastColor(color)} color={color}
+                                      index={colorIndex}>{rgbToHex(color)}</ColorPickerWithBtn>}
     colorNameNode={<ColorName color={color} />}
     settingsNodes={
       settings.map((Setting, i) =>

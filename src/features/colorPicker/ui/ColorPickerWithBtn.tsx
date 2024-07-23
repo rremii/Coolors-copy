@@ -1,15 +1,18 @@
 import styled from "styled-components"
-import { FC, useEffect, useRef, useState } from "react"
+import { FC, useRef, useState } from "react"
 import { ColorPickerModal } from "@features/colorPicker/ui/ColorPickerModal.tsx"
 import { Overlay } from "@shared/ui/Overlay.tsx"
 import { createPortal } from "react-dom"
+import { ColorType } from "@entities/colors/types.ts"
 
 
 interface Props {
   decorationColor: string
+  color: ColorType
+  index: number
 }
 
-export const ColorPickerWithBtn: FC<Props> = ({ children, decorationColor }) => {
+export const ColorPickerWithBtn: FC<Props> = ({ children, decorationColor, color, index }) => {
 
 
   const [isPicker, setIsPicker] = useState(false)
@@ -26,27 +29,27 @@ export const ColorPickerWithBtn: FC<Props> = ({ children, decorationColor }) => 
   }
 
   return <>
-    <ColorPickerWithBtnLayout $isActive={isPicker}>
-      <Overlay onClick={closePicker} $isActive={isPicker} $zIndex={100} $color={"rgba(0,0,0,0.45)"} />
+    <ColorPickerWithBtnLayout>
 
       <OpenPickerBtn ref={openBtnRef} onClick={openPicker} $isActive={isPicker} $color={decorationColor}>
         {children}
       </OpenPickerBtn>
 
       {createPortal(
-        <ColorPickerModal openBtn={openBtnRef.current} isOpen={isPicker} />,
+        <>
+          <Overlay onClick={closePicker} $isActive={isPicker} $zIndex={100} $color={"rgba(0,0,0,0.45)"} />
+          <ColorPickerModal color={color} index={index} openBtn={openBtnRef.current} isOpen={isPicker} />
+        </>,
         document.body
       )}
     </ColorPickerWithBtnLayout>
   </>
 }
-const ColorPickerWithBtnLayout = styled.div<{
-  $isActive?: boolean
-}>`
+const ColorPickerWithBtnLayout = styled.div`
     position: relative;
     width: min-content;
     height: min-content;
-    z-index: ${({ $isActive }) => $isActive ? 2 : 0};
+        // z-index: ${({ $isActive }) => $isActive ? 2 : 0};
 
     .PickerModal {
         left: 50%;
@@ -58,6 +61,10 @@ const OpenPickerBtn = styled.button<{
   $color?: string,
   $isActive?: boolean
 }>`
+
+
+    font-size: clamp(20px, 2.5vw, 30px);
+
 
     padding: 10px 7px;
     border-radius: 10px;

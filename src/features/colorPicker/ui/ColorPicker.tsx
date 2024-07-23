@@ -10,7 +10,7 @@ interface Props {
   color: string
 }
 
-//todo can be moved to shared
+//todo can be moved to shared !!!
 export const ColorPicker: FC<Props> = ({ onColorChange, color }) => {
 
   const [pickerType, setPickerType] = useState<PickerType>(PickerType.hex)
@@ -55,6 +55,6 @@ const PickerLayout = styled.div`
 
     .picker-content {
         width: 100%;
-        height: 265px;
+        height: 250px;
     }
 `
