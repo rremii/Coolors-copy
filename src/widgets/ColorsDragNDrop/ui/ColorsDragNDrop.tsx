@@ -42,8 +42,9 @@ export const ColorsDragNDrop = () => {
       const styles = {
         // transition: isDragged ? "0s" : "0.3s",
         transform: `translate${axis}(${isDragged ? deltaAxisCoord + "px" : indexShifts[index] * 100 + "%"})`,
-        pointerEvents: isDragged ? "none" : "initial",
-        zIndex: isDragged ? 100 : colors.length - index
+        pointerEvents: isDragged ? "none" : "initial"
+        // zIndex: isDragged ? 100 : colors.length - index
+        // zIndex: isDragged ? 100 : 0
       }
       return <ColorLineWithDeleting
         dragBtnRef={refs.setDragBtnRef(index)}

@@ -2,7 +2,7 @@ import Cross from "@icons/cross.svg?react"
 import { useRemoveColorFromUrl } from "@features/removeColor/model/useRemoveColorFromUrl.tsx"
 import { FC } from "react"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
-import { removeColor } from "@entities/colors/model/colorsSlice.ts"
+import { removeColor, removeLockedIndex } from "@entities/colors/model/colorsSlice.ts"
 import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
 import { WithDelayDeleting } from "@entities/colors/model/with-deleting.tsx"
 import { SettingBtn } from "@shared/ui/SettingBtn.tsx"
@@ -25,7 +25,9 @@ export const RemoveColor: FC<Props> = ({ index, isHidden, delayDeleteCb, iconCol
     if (colors.length <= 2) return
 
     removeColorFromUrl()
+
     dispatch(removeColor({ index }))
+    dispatch(removeLockedIndex(index))
   }
 
 

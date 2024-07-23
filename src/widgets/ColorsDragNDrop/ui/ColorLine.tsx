@@ -10,6 +10,8 @@ import { DragColor } from "@features/dragColor/ui/DragColor.tsx"
 import { LockColor } from "@features/lockColor/ui/LockColor.tsx"
 import { getContrastColor } from "@shared/helpers/getContrastColor.ts"
 import { ColorName } from "@features/colorName/ui/ColorName.tsx"
+import { CopyColor } from "@features/copyColor/ui/CopyColor.tsx"
+import { ColorPickerWithBtn } from "@features/colorPicker/ui/ColorPickerWithBtn.tsx"
 
 interface Props extends WithDeletingProps {
   colorId: number
@@ -39,6 +41,7 @@ const ColorLine: FC<Props> = forwardRef(({
   const settings = [
     (props) => <RemoveColor  {...props} delayDeleteCb={delayDeleteCb} index={colorIndex} />,
     (props) => <DragColor  {...props} ref={dragBtnRef} />,
+    (props) => <CopyColor  {...props} color={color} />,
     (props) => <LockColor  {...props} colorIndex={colorIndex} />
   ]
 
@@ -49,7 +52,7 @@ const ColorLine: FC<Props> = forwardRef(({
     hasMountAnimation={hasMountAnimation}
     hasUnMountAnimation={isDeleting}
     key={colorId}
-    colorHexNode={<div>{rgbToHex(color)}</div>}
+    colorHexNode={<ColorPickerWithBtn decorationColor={getContrastColor(color)}>{rgbToHex(color)}</ColorPickerWithBtn>}
     colorNameNode={<ColorName color={color} />}
     settingsNodes={
       settings.map((Setting, i) =>

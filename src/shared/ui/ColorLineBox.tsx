@@ -144,7 +144,6 @@ export const ColorLineBoxLayout = styled.div<{
 
 `
 const SettingsBox = styled.div`
-
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -170,7 +169,7 @@ const AddColorCont = styled.div`
     top: 50%;
     right: 0;
     transform: translateY(-50%) translateX(50%);
-    z-index: 100;
+    z-index: 1;
     @media screen and (max-width: 768px) {
         top: 100%;
         right: 50%;
