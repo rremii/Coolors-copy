@@ -1,9 +1,10 @@
 import styled from "styled-components"
 import { ChoosePickerType } from "@features/colorPicker/ui/ChoosePickerType.tsx"
 import { PickerFooter } from "@features/colorPicker/ui/PickerFooter.tsx"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { PickerType } from "@features/colorPicker/model/types.ts"
 import { pickerFabric } from "@features/colorPicker/model/pickerFabric.tsx"
+import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
 
 interface Props {
   onColorChange: (color: string) => void
@@ -16,11 +17,8 @@ export const ColorPicker: FC<Props> = ({ onColorChange, color }) => {
   const [pickerType, setPickerType] = useState<PickerType>(PickerType.hex)
   const [isPicker, setIsPicker] = useState(true)
 
-  const [curColor, setColor] = useState<string>(color)
-
 
   const changeColor = (color) => {
-    setColor(color)
     onColorChange(color)
   }
 
@@ -38,10 +36,10 @@ export const ColorPicker: FC<Props> = ({ onColorChange, color }) => {
   return <PickerLayout>
     <div className="picker-content">
       {isPicker ?
-        <Picker color={curColor} handleChange={changeColor} /> :
+        <Picker color={color} handleChange={changeColor} /> :
         <ChoosePickerType onSubmit={setPicker} />}
     </div>
-    <PickerFooter pickerType={pickerType} togglePicker={togglePicker} color={curColor} isPicker={isPicker} />
+    <PickerFooter pickerType={pickerType} togglePicker={togglePicker} color={color} isPicker={isPicker} />
 
   </PickerLayout>
 }

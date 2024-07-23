@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { PickerType } from "@features/colorPicker/model/types.ts"
 import { FC } from "react"
+import { pickerNamesByType } from "@features/colorPicker/model/pickerNamesByType.ts"
 
 
 interface PickerCell {
@@ -17,8 +18,8 @@ export const ChoosePickerType: FC<Props> = ({ onSubmit }) => {
 
 
   const pickerCells: PickerCell[] = [
-    { pickerType: PickerType.hex, content: "HEX" },
-    { pickerType: PickerType.rgb, content: "RGB" }
+    { pickerType: PickerType.hex, content: pickerNamesByType.get(PickerType.hex) || "" },
+    { pickerType: PickerType.rgb, content: pickerNamesByType.get(PickerType.rgb) || "" }
   ]
 
   return <PickerTypeLayout>
