@@ -1,5 +1,4 @@
 import { replaceCharByIndex } from "@shared/modules/RGBPicker/utils/replaceCharByIndex.ts"
-import { hexToRgb } from "@shared/helpers/HexToRgb.ts"
 
 export const replaceColorChanel = (chanel: "red" | "green" | "blue", hexColor: string, value: string) => {
 

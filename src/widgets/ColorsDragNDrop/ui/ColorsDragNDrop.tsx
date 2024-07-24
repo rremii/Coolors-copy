@@ -21,9 +21,9 @@ export const ColorsDragNDrop = () => {
   }
 
   const screenWidth = useRef<number>(document.body.clientWidth)
-
-
   const axis = screenWidth.current <= 768 ? "Y" : "X" //todo
+
+
   const {
     deltaAxisCoord,
     indexShifts,
@@ -62,11 +62,7 @@ export const ColorsDragNDrop = () => {
     })}
   </DragNDropLayout>
 }
-const DragNDropLayout = styled.div<{
-  $isDragged?: boolean
-  $deltaX?: number
-  $curShift?: number
-}>`
+const DragNDropLayout = styled.div`
     position: relative;
     display: flex;
     background-color: white;

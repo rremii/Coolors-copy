@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { forwardRef, useState } from "react"
+import { useState } from "react"
 
 export const withOverlay = (Component) => (props => {
 

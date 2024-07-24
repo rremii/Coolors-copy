@@ -49,13 +49,12 @@ const ColorPickerWithBtnLayout = styled.div`
     position: relative;
     width: min-content;
     height: min-content;
-        // z-index: ${({ $isActive }) => $isActive ? 2 : 0};
 
-    .PickerModal {
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: calc(100% + 20px);
-    }
+    //.PickerModal {
+    //    left: 50%;
+    //    transform: translateX(-50%);
+    //    bottom: calc(100% + 20px);
+    //}
 `
 const OpenPickerBtn = styled.button<{
   $color?: string,
@@ -69,7 +68,6 @@ const OpenPickerBtn = styled.button<{
     padding: 10px 7px;
     border-radius: 10px;
     color: ${({ $color }) => $color};
-    z-index: -1;
 
     &:after {
         position: absolute;

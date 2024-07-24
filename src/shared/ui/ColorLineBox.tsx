@@ -15,7 +15,6 @@ interface Props {
 
 
 export const ColorLineBox: FC<Props> = forwardRef(({
-                                                     // color,
                                                      colorNameNode,
                                                      colorHexNode,
                                                      addColorNode,
@@ -37,14 +36,12 @@ export const ColorLineBox: FC<Props> = forwardRef(({
 
   return <ColorLineBoxLayout
     style={style}
-    // $styles={style}
     ref={ref}
     className="ColorLineBox"
     onMouseLeave={onMouseLeave}
     onMouseEnter={onMouseEnter}
     $hasMountAnimation={hasMountAnimation}
     $hasUnMountAnimation={hasUnMountAnimation}
-    // $color={colorToString(color)}
   >
     <div className="content-box">
       <SettingsBox className="SettingsBox">
@@ -63,12 +60,9 @@ export const ColorLineBox: FC<Props> = forwardRef(({
   </ColorLineBoxLayout>
 })
 export const ColorLineBoxLayout = styled.div<{
-  // $color?: string
   $hasMountAnimation?: boolean
   $hasUnMountAnimation?: boolean
-  // $styles?: React.CSSProperties
 }>`
-        // background-color: ${({ $color }) => $color || "black"};
     background-color: white;
     padding-bottom: 80px;
     position: relative;
@@ -76,28 +70,21 @@ export const ColorLineBoxLayout = styled.div<{
     height: 100%;
     overflow: visible;
     ${({ $hasMountAnimation }) => $hasMountAnimation ?
-            "animation: 0.4s growUp forwards;" :
-            "animation: 0s growUp forwards;"}
+  "animation: 0.4s growUp forwards;" :
+  "animation: 0s growUp forwards;"}
     ${({ $hasUnMountAnimation }) => $hasUnMountAnimation ?
-            "animation: 0.4s growDown forwards;" : ""};
-    ${({ $styles }) => $styles} //&:hover .SettingsBox * { //todo
-            //    opacity: 1;
-            //}
-            //
-            //.SettingsBox * {
-            //    opacity: 0;
-            //}
+  "animation: 0.4s growDown forwards;" : ""};
 
 
     @keyframes growUp {
-    0% {
-        width: 0;
-    }
+        0% {
+            width: 0;
+        }
 
-    100% {
-        width: 100%;
+        100% {
+            width: 100%;
+        }
     }
-}
     @keyframes growDown {
         0% {
             width: 100%;

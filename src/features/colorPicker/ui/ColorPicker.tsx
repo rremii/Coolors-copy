@@ -1,10 +1,9 @@
 import styled from "styled-components"
 import { ChoosePickerType } from "@features/colorPicker/ui/ChoosePickerType.tsx"
 import { PickerFooter } from "@features/colorPicker/ui/PickerFooter.tsx"
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import { PickerType } from "@features/colorPicker/model/types.ts"
 import { pickerFabric } from "@features/colorPicker/model/pickerFabric.tsx"
-import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
 
 interface Props {
   onColorChange: (color: string) => void

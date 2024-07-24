@@ -5,7 +5,7 @@ import { RootState } from "@shared/store/store.ts"
 export interface IColorCell {
   color: ColorType
   id: number
-  //todo can add isLocked and implement locking in easier way
+  //todo can add isLocked and implement locking in easier way !!!!!!!!!
 }
 
 interface initialState {
@@ -24,14 +24,6 @@ export const ColorsSlice = createSlice({
   name: "ColorsSlice",
   initialState,
   reducers: {
-
-    // addLockedColor(state, action: PayloadAction<{ id: number, index: number }>) {
-    //   if (!state.lockedColors.find(({ id }) => id === action.payload.id))
-    //     state.lockedColors.push(action.payload)
-    // },
-    // removeLockedColor(state, action: PayloadAction<{ id: number }>) {
-    //   state.lockedColors = state.lockedColors.filter(({ id }) => id !== action.payload.id)
-    // },
 
     addLockedColor(state, action: PayloadAction<{ id: number }>) {
       if (!state.lockedColorsIds.find((id) => id === action.payload.id))

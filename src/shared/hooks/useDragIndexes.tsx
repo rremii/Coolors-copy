@@ -2,7 +2,6 @@ import { useRef, useState } from "react"
 import { swap } from "@shared/helpers/swap.ts"
 
 
-//todo
 function sortIndexesByShift<T>(indexes: Array<T>, shifts: Array<number>): Array<T> {
   if (shifts.length < 2) return indexes
 
@@ -96,9 +95,6 @@ export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
 
       const indexesAmount = Math.ceil(Math.abs(deltaCoords) / breakValue)
 
-      // if (Math.abs(deltaCoords) > breakValue) {
-      // const indexesAmount = Math.ceil(Math.abs(deltaCoords) / (breakValue))
-
 
       for (let i = 1; i < indexesAmount + 1; i++) {
         if (deltaCoords < 0) {
@@ -120,15 +116,13 @@ export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
     isDraggin.current = false
 
     const newIndexes = sortIndexesByShift(indexes, indexShifts.current)
-
     setIndexes(newIndexes)
 
     resetDrag()
   }
 
 
-  //todo
-  const onDragStart = (index: number, btnEl: HTMLElement) => (e: DragEvent) => {
+  const onDragStart = (index: number, btnEl: HTMLElement) => () => {
     console.log("start")
 
     dragBtn.current = btnEl
@@ -146,6 +140,7 @@ export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
 
   const setIndexRef = (index: number) => (indexEl: HTMLElement | null) => {
     if (!indexEl) return
+
     const isDragged = index === dragIndex.current
 
 

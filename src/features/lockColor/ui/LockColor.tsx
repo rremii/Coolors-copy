@@ -1,9 +1,7 @@
 import { SettingBtn } from "@shared/ui/SettingBtn.tsx"
-import { FC, useEffect, useRef } from "react"
+import { FC } from "react"
 import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
-import {
-  addLockedColor, removeLockedColor
-} from "@entities/colors/model/colorsSlice.ts"
+import { addLockedColor, removeLockedColor } from "@entities/colors/model/colorsSlice.ts"
 import Lock from "@icons/lock.svg?react"
 import LockOpened from "@icons/lock-open.svg?react"
 

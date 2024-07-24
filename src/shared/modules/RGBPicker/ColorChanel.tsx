@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { ChangeEvent, FC, useEffect, useRef, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
 import { hexToRgb } from "@shared/helpers/HexToRgb.ts"
 import { replaceColorChanel } from "@shared/modules/RGBPicker/utils/replaceColorChanel.ts"

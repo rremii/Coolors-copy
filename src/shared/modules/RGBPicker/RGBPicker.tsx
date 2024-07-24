@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { FC, useEffect, useState } from "react"
+import { FC } from "react"
 import { ColorChanel } from "@shared/modules/RGBPicker/ColorChanel.tsx"
 
 interface Props {
