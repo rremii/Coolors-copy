@@ -4,7 +4,7 @@ import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
 import { AddColorWithOverlay } from "@features/addColorWithOverlay/ui/AddColorWithOverlay.tsx"
 import { useTypedSelector } from "@shared/hooks/storeHooks.ts"
 import { ColorType } from "@entities/colors/types.ts"
-import { FC, forwardRef, useState } from "react"
+import { FC, forwardRef, useEffect, useState } from "react"
 import { withDeleting, WithDeletingProps } from "@entities/colors/model/with-deleting.tsx"
 import { DragColor } from "@features/dragColor/ui/DragColor.tsx"
 import { LockColor } from "@features/lockColor/ui/LockColor.tsx"
@@ -14,23 +14,27 @@ import { CopyColor } from "@features/copyColor/ui/CopyColor.tsx"
 import { ColorPickerWithBtn } from "@features/colorPicker/ui/ColorPickerWithBtn.tsx"
 
 interface Props extends WithDeletingProps {
-  colorId: number
   colorIndex: number
   color: ColorType
   isLastIndex: boolean
   style?: React.CSSProperties
   dragBtnRef?: (node: HTMLElement) => void
+  isDraggin?: boolean
+  isDragged?: boolean
+  id: number
 }
 
 const ColorLine: FC<Props> = forwardRef(({
-                                           colorId,
                                            colorIndex,
                                            isLastIndex,
                                            color,
                                            isDeleting,
                                            delayDeleteCb,
                                            style,
-                                           dragBtnRef
+                                           dragBtnRef,
+                                           isDraggin,
+                                           isDragged,
+                                           id
                                          }, ref) => {
   const hasMountAnimation = useTypedSelector(state => state.Colors.hasMountAnimation)
 
@@ -42,28 +46,30 @@ const ColorLine: FC<Props> = forwardRef(({
     (props) => <RemoveColor  {...props} delayDeleteCb={delayDeleteCb} index={colorIndex} />,
     (props) => <DragColor  {...props} ref={dragBtnRef} />,
     (props) => <CopyColor  {...props} color={color} />,
-    (props) => <LockColor  {...props} colorIndex={colorIndex} />
+    (props) => <LockColor  {...props} colorIndex={id} />
   ]
 
   return <ColorLineBox
-    style={style}
+    style={{ ...style, backgroundColor: rgbToHex(color) }}
     ref={ref}
     onHover={setHovered}
     hasMountAnimation={hasMountAnimation}
     hasUnMountAnimation={isDeleting}
-    key={colorId}
-    colorHexNode={<ColorPickerWithBtn decorationColor={getContrastColor(color)} color={color}
-                                      index={colorIndex}>{rgbToHex(color)}</ColorPickerWithBtn>}
+    colorHexNode={
+      <ColorPickerWithBtn decorationColor={getContrastColor(color)}
+                          color={color}
+                          index={colorIndex}
+      >{rgbToHex(color)}</ColorPickerWithBtn>
+    }
     colorNameNode={<ColorName color={color} />}
     settingsNodes={
       settings.map((Setting, i) =>
         <Setting
-          isHidden={!isHovered}
+          isHidden={isDraggin ? !isDragged : !isHovered}
           iconColor={getContrastColor(color)}
           key={i} />)
     }
-    color={color}
-    addColorNode={!isLastIndex ? <AddColorWithOverlay index={colorIndex} /> : null}
+    addColorNode={!isDraggin && !isLastIndex ? <AddColorWithOverlay index={colorIndex} /> : null}
   />
 })
 

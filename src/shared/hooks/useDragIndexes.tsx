@@ -19,15 +19,15 @@ function sortIndexesByShift<T>(indexes: Array<T>, shifts: Array<number>): Array<
 
   if (direction < 0) {
     //from left to right in arr
-    for (let i = 1; i < shifts.length; i++) {
+    for (let i = 1; i < shifts.length; i++)
       if (shifts[i] === -1) newIndexes = swap([i, i - 1], newIndexes)
-    }
+
   }
   if (direction > 0) {
     //from right to left in arr
-    for (let i = shifts.length - 2; i >= 0; i--) {
+    for (let i = shifts.length - 2; i >= 0; i--)
       if (shifts[i] === 1) newIndexes = swap([i, i + 1], newIndexes)
-    }
+
   }
 
   return newIndexes
@@ -35,75 +35,133 @@ function sortIndexesByShift<T>(indexes: Array<T>, shifts: Array<number>): Array<
 
 export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
 
+
   const indexShifts = useRef([])
   const dragIndex = useRef<number | null>(null)
   const firstAxisCoord = useRef(0)
-  const [deltaAxisCoord, setDeltaCoord] = useState(0)
+  const [deltaAxisCoord, setDeltaCoord] = useState<number>(0)
+  const isDraggin = useRef(false)
 
+  const allIndexes = useRef<HTMLElement[]>([])
+  const dragIndexEl = useRef<HTMLElement | null>(null)
   const dragBtn = useRef<HTMLElement | null>(null)
 
 
   const resetDrag = () => {
+    allIndexes.current.forEach((indexEl) => indexEl.focus())
+    allIndexes.current = []
     dragBtn.current = null
+    dragIndexEl.current = null
     dragIndex.current = null
     firstAxisCoord.current = 0
     indexShifts.current = new Array(indexes.length || 0).fill(0)
     setDeltaCoord(0)
   }
 
+
+  const onDrag = (e: DragEvent) => {
+    const indexEl = dragIndexEl.current
+    const btn = dragBtn.current
+
+
+    if (!isDraggin.current || !indexEl || !btn) return
+
+
+    const curCoord = axisCoord === "Y" ? e.clientY : e.clientX
+
+
+    if (!firstAxisCoord.current)
+      firstAxisCoord.current = curCoord
+    else {
+
+      const deltaCoord = curCoord - firstAxisCoord.current
+      setDeltaCoord(deltaCoord)
+
+
+      const indexWidth = dragIndexEl.current?.clientWidth || 0
+      const indexHeight = dragIndexEl.current?.clientHeight || 0
+      const breakValue = axisCoord === "Y" ? indexHeight : indexWidth
+
+      handleIsEntered(deltaCoord, breakValue)
+    }
+  }
+
+  function handleIsEntered(deltaCoords: number, breakValue: number) {
+
+    const index = dragIndex.current
+    const shifts = [...indexShifts.current.map(() => 0)]
+
+
+    if (Math.abs(deltaCoords) > breakValue / 2) {
+
+      const indexesAmount = Math.ceil(Math.abs(deltaCoords) / breakValue)
+
+      // if (Math.abs(deltaCoords) > breakValue) {
+      // const indexesAmount = Math.ceil(Math.abs(deltaCoords) / (breakValue))
+
+
+      for (let i = 1; i < indexesAmount + 1; i++) {
+        if (deltaCoords < 0) {
+          shifts[index - i] = 1
+        }
+        if (deltaCoords > 0) {
+          shifts[index + i] = -1
+        }
+      }
+
+    }
+
+    indexShifts.current = shifts
+  }
+
+
   function onDragEnd() {
+    console.log("end")
+    isDraggin.current = false
 
     const newIndexes = sortIndexesByShift(indexes, indexShifts.current)
 
     setIndexes(newIndexes)
+
     resetDrag()
   }
 
 
   //todo
-  const onDragStart = (index: number) => (e: DragEvent) => {
-    resetDrag()
+  const onDragStart = (index: number, btnEl: HTMLElement) => (e: DragEvent) => {
+    console.log("start")
+
+    dragBtn.current = btnEl
     dragIndex.current = index
+    isDraggin.current = true
+
+    let newDragIndexEl: HTMLElement | null = null
+    allIndexes.current.forEach((indexEl) => indexEl.contains(btnEl) && (newDragIndexEl = indexEl))
+
+
+    if (newDragIndexEl)
+      dragIndexEl.current = newDragIndexEl
+
   }
-  const onDragEnter = (index: number) => {
-    if (index === dragIndex.current) return
-    if (!indexShifts.current[index]) {
-      indexShifts.current[index] = deltaAxisCoord < 0 ? +1 : -1
-    } else {
-      indexShifts.current[index] = 0
-    }
-  }
-
-
-  const onDrag = (e: DragEvent) => {
-    if (dragIndex.current === null) return
-
-    const curCoord = axisCoord === "Y" ? e.clientY : e.clientX
-
-    if (!firstAxisCoord.current)
-      firstAxisCoord.current = curCoord
-    else {
-      const deltaCoord = curCoord - firstAxisCoord.current
-
-      setDeltaCoord(deltaCoord)
-    }
-  }
-
 
   const setIndexRef = (index: number) => (indexEl: HTMLElement | null) => {
     if (!indexEl) return
     const isDragged = index === dragIndex.current
 
-    indexEl.ondragenter = !isDragged ? () => onDragEnter(index) : null
-    indexEl.draggable = false //TODO how to clean | save arr of elements and clean on unmount? sounds like a trash:D
-    indexEl.ondragstart = onDragStart(index)
+
+    if (!allIndexes.current.includes(indexEl)) {
+      indexShifts.current[index] = 0
+      allIndexes.current = [...allIndexes.current, indexEl]
+    }
+
+    if (isDragged)
+      dragIndexEl.current = indexEl
 
   }
   const setContainerRef = (containerEl: HTMLElement | null) => {
     if (!containerEl) return
 
-    containerEl.draggable = false
-    containerEl.ondragover = (e) => e.preventDefault()
+    containerEl.draggable = true
     containerEl.ondragover = onDrag
 
   }
@@ -111,13 +169,9 @@ export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
     if (!btnEl) return
 
 
-    dragBtn.current = btnEl
-    const isDragged = index === dragIndex.current
-
-    btnEl.ondragover = (e) => e.preventDefault()
-    btnEl.draggable = true
     btnEl.ondragend = onDragEnd
-    btnEl.ondragstart = !isDragged ? () => onDragStart(index) : null
+    btnEl.draggable = true
+    btnEl.ondragstart = onDragStart(index, btnEl)
   }
 
 
@@ -125,6 +179,7 @@ export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
     indexShifts: indexShifts.current,
     dragIndex: dragIndex.current,
     deltaAxisCoord,
+    isDraggin: isDraggin.current,
     refs: { setIndexRef, setContainerRef, setDragBtnRef }
   }
 

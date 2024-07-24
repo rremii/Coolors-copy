@@ -40,7 +40,6 @@ export const ColorPicker: FC<Props> = ({ onColorChange, color }) => {
         <ChoosePickerType onSubmit={setPicker} />}
     </div>
     <PickerFooter pickerType={pickerType} togglePicker={togglePicker} color={color} isPicker={isPicker} />
-
   </PickerLayout>
 }
 const PickerLayout = styled.div`

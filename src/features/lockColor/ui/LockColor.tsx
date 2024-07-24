@@ -21,7 +21,7 @@ export const LockColor: FC<Props> = ({ isHidden, colorIndex, iconColor }) => {
 
   const isLockedColor = useTypedSelector((state) => getIsIndexLocked(state, colorIndex))
 
-
+  
   const onClick = () => {
     if (isLockedColor)
       dispatch(removeLockedIndex(colorIndex))

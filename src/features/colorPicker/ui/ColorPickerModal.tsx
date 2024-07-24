@@ -27,7 +27,25 @@ export const ColorPickerModal: FC<Props> = ({ isOpen, openBtn, color, index }) =
   const navigate = useNavigate()
 
 
+  // const [chosenColor, setChosenColor] = useState(rgbToHex(color))
+
+
+  // useEffect(() => {
+  //
+  //   const pathName = location.pathname.slice(1)
+  //   const rgbColor = hexToRgb(chosenColor)
+  //
+  //   if (!rgbColor || isOpen) return
+  //
+  //   const newColorUrl = replaceColorInUrlStr(chosenColor, pathName, index)
+  //
+  //   dispatch(replaceColor({ index, color: rgbColor }))
+  //   navigate("/" + newColorUrl)
+  //
+  // }, [isOpen])
+
   const changeColor = (color: string) => {
+    // setChosenColor(color)
     const pathName = location.pathname.slice(1)
     const rgbColor = hexToRgb(color)
 

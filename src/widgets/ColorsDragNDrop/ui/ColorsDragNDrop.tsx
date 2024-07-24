@@ -1,10 +1,10 @@
 import { ColorLineWithDeleting } from "@widgets/ColorsDragNDrop/ui/ColorLine.tsx"
 import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
-import { useDragIndexes } from "@shared/hooks/useDragIndexes.tsx"
 import { IColorCell, setColors, setHasMountAnimation } from "@entities/colors/model/colorsSlice.ts"
 import styled from "styled-components"
 import { useSetColorsToUrl } from "@entities/colors/model/useSetColorsToUrl.tsx"
 import { useRef } from "react"
+import { useDragIndexes } from "@shared/hooks/useDragIndexes.tsx"
 
 export const ColorsDragNDrop = () => {
   const dispatch = useAppDispatch()
@@ -15,7 +15,6 @@ export const ColorsDragNDrop = () => {
   const { setColorsToUrl } = useSetColorsToUrl()
 
   const setNewColors = (colors: IColorCell[]) => {
-
     dispatch(setHasMountAnimation(false))
     setColorsToUrl(colors.map(({ color }) => color))
     dispatch(setColors(colors))
@@ -29,7 +28,8 @@ export const ColorsDragNDrop = () => {
     deltaAxisCoord,
     indexShifts,
     dragIndex,
-    refs
+    refs,
+    isDraggin
   } = useDragIndexes(colors, setNewColors, axis)
 
 
@@ -39,20 +39,23 @@ export const ColorsDragNDrop = () => {
 
       const isDragged = index === dragIndex
 
-      const styles = {
-        // transition: isDragged ? "0s" : "0.3s",
+      const styles = isDraggin ? {
+        transition: isDragged ? "0s" : "0.3s",
         transform: `translate${axis}(${isDragged ? deltaAxisCoord + "px" : indexShifts[index] * 100 + "%"})`,
-        pointerEvents: isDragged ? "none" : "initial"
-        // zIndex: isDragged ? 100 : colors.length - index
-        // zIndex: isDragged ? 100 : 0
+        zIndex: isDragged ? 100 : "initial"
+      } : {
+        transition: "0s",
+        pointerEvents: "initial",
+        zIndex: "initial"
       }
       return <ColorLineWithDeleting
+        id={id}
+        isDraggin={isDraggin}
         dragBtnRef={refs.setDragBtnRef(index)}
         style={styles}
         ref={refs.setIndexRef(index)}
         key={id}
         color={color}
-        colorId={id}
         colorIndex={index}
         isLastIndex={isLastIndex}
       />

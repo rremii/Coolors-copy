@@ -2,10 +2,11 @@ import styled from "styled-components"
 import { FC, forwardRef, ReactNode } from "react"
 import { colorToString } from "@shared/helpers/colorToString.ts"
 import { ColorType } from "@entities/colors/types.ts"
+import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
 
 
 interface Props {
-  color: ColorType
+  // color: ColorType
   settingsNodes: ReactNode[]
   colorNameNode: ReactNode
   colorHexNode: ReactNode
@@ -18,7 +19,7 @@ interface Props {
 
 
 export const ColorLineBox: FC<Props> = forwardRef(({
-                                                     color,
+                                                     // color,
                                                      colorNameNode,
                                                      colorHexNode,
                                                      addColorNode,
@@ -28,6 +29,8 @@ export const ColorLineBox: FC<Props> = forwardRef(({
                                                      onHover,
                                                      style
                                                    }, ref) => {
+
+
   const onMouseEnter = () => {
     onHover(true)
   }
@@ -38,13 +41,14 @@ export const ColorLineBox: FC<Props> = forwardRef(({
 
   return <ColorLineBoxLayout
     style={style}
+    // $styles={style}
     ref={ref}
     className="ColorLineBox"
     onMouseLeave={onMouseLeave}
     onMouseEnter={onMouseEnter}
     $hasMountAnimation={hasMountAnimation}
     $hasUnMountAnimation={hasUnMountAnimation}
-    $color={colorToString(color)}
+    // $color={colorToString(color)}
   >
     <div className="content-box">
       <SettingsBox className="SettingsBox">
@@ -63,11 +67,13 @@ export const ColorLineBox: FC<Props> = forwardRef(({
   </ColorLineBoxLayout>
 })
 export const ColorLineBoxLayout = styled.div<{
-  $colorStr?: string
+  // $color?: string
   $hasMountAnimation?: boolean
   $hasUnMountAnimation?: boolean
+  // $styles?: React.CSSProperties
 }>`
-    background-color: ${({ $color }) => $color || "black"};
+        // background-color: ${({ $color }) => $color || "black"};
+    background-color: white;
     padding-bottom: 80px;
     position: relative;
     width: 100%;
@@ -78,25 +84,24 @@ export const ColorLineBoxLayout = styled.div<{
             "animation: 0s growUp forwards;"}
     ${({ $hasUnMountAnimation }) => $hasUnMountAnimation ?
             "animation: 0.4s growDown forwards;" : ""};
-
-
-    //&:hover .SettingsBox * { //todo
-    //    opacity: 1;
-    //}
-    //
-    //.SettingsBox * {
-    //    opacity: 0;
-    //}
+    ${({ $styles }) => $styles} //&:hover .SettingsBox * { //todo
+            //    opacity: 1;
+            //}
+            //
+            //.SettingsBox * {
+            //    opacity: 0;
+            //}
 
 
     @keyframes growUp {
-        0% {
-            width: 0;
-        }
-        100% {
-            width: 100%;
-        }
+    0% {
+        width: 0;
     }
+
+    100% {
+        width: 100%;
+    }
+}
     @keyframes growDown {
         0% {
             width: 100%;

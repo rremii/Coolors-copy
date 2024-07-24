@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react"
-import { replaceCharByIndex } from "@shared/modules/RGBPicker/utils/replaceCharByIndex.ts"
 import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
 import { hexToRgb } from "@shared/helpers/HexToRgb.ts"
 import { replaceColorChanel } from "@shared/modules/RGBPicker/utils/replaceColorChanel.ts"
@@ -45,10 +44,14 @@ export const ColorChanel: FC<Props> = ({ chanel, colorHex, onColorChange, name }
       <label className="chanel">{name}</label>
       <input value={rgbEl} onChange={handleColorChange} type="text" className="value-input" />
     </div>
-    <ColorRange value={rgbEl} onChange={handleColorChange} min={0} max={255} step={1} $colorHex={colorHex}
-                $colorMin={minColor}
-                $colorMax={maxColor}
-                className="range" type="range" />
+    <ColorRange
+      style={{ backgroundImage: `linear-gradient(to right, ${minColor}, ${maxColor})` }}
+
+      value={rgbEl} onChange={handleColorChange} min={0} max={255} step={1}
+      // $colorHex={colorHex}
+      // $colorMin={minColor}
+      // $colorMax={maxColor}
+      className="range" type="range" />
 
   </ColorChanelLayout>
 }
@@ -87,15 +90,15 @@ const ColorChanelLayout = styled.div`
 
 `
 export const ColorRange = styled.input<{
-  $colorHex?: string
-  $colorMin?: string
-  $colorMax?: string
+  // $colorHex?: string
+  // $colorMin?: string
+  // $colorMax?: string
 }>`
     width: 100%;
 
     -webkit-appearance: none;
     background: rgba(255, 255, 255, 0.6);
-    background-image: ${({ $colorMin, $colorMax }) => `linear-gradient(to right, ${$colorMin}, ${$colorMax})`};
+        //background-image: ${({ $colorMin, $colorMax }) => `linear-gradient(to right, ${$colorMin}, ${$colorMax})`};
     background-repeat: no-repeat;
     height: 10px;
     border-radius: 5px;
@@ -105,11 +108,12 @@ export const ColorRange = styled.input<{
         height: 20px;
         width: 20px;
         border-radius: 50%;
-        background: ${({ $colorHex }) => $colorHex};
+        background-color: transparent;
+            // background: ${({ $colorHex }) => $colorHex};
         cursor: grab;
         box-shadow: 0 0 2px 0 #555;
         transition: background .3s ease-in-out;
-        border: 5px solid white;
+        border: 6px solid white;
     }
 
 

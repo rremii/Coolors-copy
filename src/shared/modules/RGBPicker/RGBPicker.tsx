@@ -1,7 +1,5 @@
 import styled from "styled-components"
-import { FC } from "react"
-import { IPicker } from "@features/colorPicker/model/types.ts"
-import { ColorRange } from "@shared/modules/RGBPicker/ColorRange.tsx"
+import { FC, useEffect, useState } from "react"
 import { ColorChanel } from "@shared/modules/RGBPicker/ColorChanel.tsx"
 
 interface Props {
