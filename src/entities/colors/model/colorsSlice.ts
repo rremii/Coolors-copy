@@ -1,23 +1,23 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ColorType } from "@entities/colors/types.ts"
 import { RootState } from "@shared/store/store.ts"
-import { type } from "node:os"
 
 export interface IColorCell {
   color: ColorType
   id: number
+  //todo can add isLocked and implement locking in easier way
 }
 
 interface initialState {
   colors: IColorCell[]
-  lockedColorsIndexes: number[]
+  lockedColorsIds: number[]
   hasMountAnimation: boolean
 }
 
 const initialState = {
   colors: [],
   hasMountAnimation: false,
-  lockedColorsIndexes: []
+  lockedColorsIds: []
 } as initialState
 
 export const ColorsSlice = createSlice({
@@ -25,16 +25,30 @@ export const ColorsSlice = createSlice({
   initialState,
   reducers: {
 
-    addLockedIndex(state, action: PayloadAction<number>) {
-      if (!state.lockedColorsIndexes.includes(action.payload))
-        state.lockedColorsIndexes.push(action.payload)
+    // addLockedColor(state, action: PayloadAction<{ id: number, index: number }>) {
+    //   if (!state.lockedColors.find(({ id }) => id === action.payload.id))
+    //     state.lockedColors.push(action.payload)
+    // },
+    // removeLockedColor(state, action: PayloadAction<{ id: number }>) {
+    //   state.lockedColors = state.lockedColors.filter(({ id }) => id !== action.payload.id)
+    // },
+
+    addLockedColor(state, action: PayloadAction<{ id: number }>) {
+      if (!state.lockedColorsIds.find((id) => id === action.payload.id))
+        state.lockedColorsIds.push(action.payload.id)
     },
-    removeLockedIndex(state, action: PayloadAction<number>) {
-      state.lockedColorsIndexes = state.lockedColorsIndexes.filter((index) => index !== action.payload)
+    removeLockedColor(state, action: PayloadAction<{ id: number }>) {
+      state.lockedColorsIds = state.lockedColorsIds.filter((id) => id !== action.payload.id)
     },
 
     setHasMountAnimation(state, action: PayloadAction<boolean>) {
       state.hasMountAnimation = action.payload
+    },
+    updateColors(state, action: PayloadAction<ColorType[]>) {
+      state.colors = state.colors.map((color, index) => ({
+          ...color, color: action.payload[index]
+        })
+      )
     },
     createColors(state, action: PayloadAction<ColorType[]>) {
       state.colors = action.payload.map((color, index) => ({
@@ -77,20 +91,32 @@ export const ColorsSlice = createSlice({
 export const {
   setColors,
   createColors,
-  removeLockedIndex,
-  addLockedIndex,
+  removeLockedColor,
+  addLockedColor,
   removeColor,
   insertNewColor,
   setHasMountAnimation,
-  replaceColor
+  replaceColor,
+  updateColors
 } = ColorsSlice.actions
 
 export const ColorsReducer = ColorsSlice.reducer
 
 
-export const getIsIndexLocked = createSelector(
+// export const getIsColorLocked = createSelector(
+//   [
+//     (state: RootState, colorId: number) => state.Colors.lockedColors.find(({ id }) => colorId === id)
+//   ],
+//   (color) => !!color
+// )
+export const getLockedColorIndexes = createSelector(
   [
-    (state: RootState, index: number) => state.Colors.lockedColorsIndexes.find((id) => id === index)
+    (state: RootState) => state.Colors.lockedColorsIds,
+    (state: RootState) => state.Colors.colors
   ],
-  (color) => typeof color === "number"
+  (lockedColorsIds, colors) => {
+    const lockedIndexes = []
+    colors.forEach(({ id }, index) => lockedColorsIds.includes(id) && lockedIndexes.push(index))
+    return lockedIndexes
+  }
 )

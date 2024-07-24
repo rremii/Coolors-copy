@@ -2,22 +2,23 @@ import Cross from "@icons/cross.svg?react"
 import { useRemoveColorFromUrl } from "@features/removeColor/model/useRemoveColorFromUrl.tsx"
 import { FC } from "react"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
-import { removeColor, removeLockedIndex } from "@entities/colors/model/colorsSlice.ts"
+import { removeColor, removeLockedColor } from "@entities/colors/model/colorsSlice.ts"
 import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
 import { WithDelayDeleting } from "@entities/colors/model/with-deleting.tsx"
 import { SettingBtn } from "@shared/ui/SettingBtn.tsx"
 
 interface Props extends WithDelayDeleting {
-  index: number
+  colorIndex: number
   isHidden: boolean
   iconColor?: string
+  colorId: number
 }
 
 
-export const RemoveColor: FC<Props> = ({ index, isHidden, delayDeleteCb, iconColor }) => {
+export const RemoveColor: FC<Props> = ({ colorIndex, isHidden, delayDeleteCb, iconColor, colorId }) => {
   const dispatch = useAppDispatch()
 
-  const { removeColorFromUrl } = useRemoveColorFromUrl(index)
+  const { removeColorFromUrl } = useRemoveColorFromUrl(colorIndex)
 
   const colors = useGetColorsFromUrl()
 
@@ -26,8 +27,8 @@ export const RemoveColor: FC<Props> = ({ index, isHidden, delayDeleteCb, iconCol
 
     removeColorFromUrl()
 
-    dispatch(removeColor({ index }))
-    dispatch(removeLockedIndex(index))
+    dispatch(removeColor({ index: colorIndex }))
+    dispatch(removeLockedColor({ id: colorId }))
   }
 
 

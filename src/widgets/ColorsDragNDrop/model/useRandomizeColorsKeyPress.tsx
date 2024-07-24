@@ -3,13 +3,18 @@ import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
 import { randomizeColors } from "@entities/colors/model/randomizeColors.ts"
 import { KeyCodes, useKeyPress } from "@shared/hooks/useKeyPress.tsx"
 import { useSetColorsToUrl } from "@entities/colors/model/useSetColorsToUrl.tsx"
-import { createColors, setHasMountAnimation } from "@entities/colors/model/colorsSlice.ts"
+import {
+  createColors,
+  getLockedColorIndexes,
+  setHasMountAnimation,
+  updateColors
+} from "@entities/colors/model/colorsSlice.ts"
 
 
 export const useRandomizeColorsKeyPress = (keyCode: KeyCodes) => {
   const dispatch = useAppDispatch()
 
-  const lockedIndexes = useTypedSelector((state) => state.Colors.lockedColorsIndexes)
+  const lockedColorsIndexes = useTypedSelector(getLockedColorIndexes)
 
 
   const colors = useGetColorsFromUrl()
@@ -18,13 +23,12 @@ export const useRandomizeColorsKeyPress = (keyCode: KeyCodes) => {
 
   const randomize = () => {
 
-
-    const newColors = randomizeColors(colors, lockedIndexes)
+    const newColors = randomizeColors(colors, lockedColorsIndexes)
 
 
     setColorsToUrl(newColors)
     dispatch(setHasMountAnimation(false))
-    dispatch(createColors(newColors))
+    dispatch(updateColors(newColors))
   }
 
   useKeyPress(keyCode, randomize)

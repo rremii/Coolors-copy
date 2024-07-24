@@ -43,10 +43,10 @@ const ColorLine: FC<Props> = forwardRef(({
 
 
   const settings = [
-    (props) => <RemoveColor  {...props} delayDeleteCb={delayDeleteCb} index={colorIndex} />,
+    (props) => <RemoveColor  {...props} delayDeleteCb={delayDeleteCb} colorIndex={colorIndex} />,
     (props) => <DragColor  {...props} ref={dragBtnRef} />,
     (props) => <CopyColor  {...props} color={color} />,
-    (props) => <LockColor  {...props} colorIndex={id} />
+    (props) => <LockColor  {...props} colorId={id} colorIndex={colorIndex} />
   ]
 
   return <ColorLineBox

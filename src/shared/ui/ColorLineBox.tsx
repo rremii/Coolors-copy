@@ -1,12 +1,8 @@
 import styled from "styled-components"
 import { FC, forwardRef, ReactNode } from "react"
-import { colorToString } from "@shared/helpers/colorToString.ts"
-import { ColorType } from "@entities/colors/types.ts"
-import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
 
 
 interface Props {
-  // color: ColorType
   settingsNodes: ReactNode[]
   colorNameNode: ReactNode
   colorHexNode: ReactNode
