@@ -1,9 +1,11 @@
 import { useRef, useState } from "react"
 import { swap } from "@shared/helpers/swap.ts"
 
-
 //todo
-function sortIndexesByShift<T>(indexes: Array<T>, shifts: Array<number>): Array<T> {
+function sortIndexesByShift<T>(
+  indexes: Array<T>,
+  shifts: Array<number>
+): Array<T> {
   if (shifts.length < 2) return indexes
 
   let direction = 0
@@ -33,15 +35,17 @@ function sortIndexesByShift<T>(indexes: Array<T>, shifts: Array<number>): Array<
   return newIndexes
 }
 
-export const useDragIndexesDemo = (indexes, setIndexes, axisCoord: "X" | "Y") => {
-
+export const useDragIndexesDemo = (
+  indexes,
+  setIndexes,
+  axisCoord: "X" | "Y"
+) => {
   const indexShifts = useRef([])
   const dragIndex = useRef<number | null>(null)
   const firstAxisCoord = useRef(0)
   const [deltaAxisCoord, setDeltaCoord] = useState(0)
 
   const dragBtn = useRef<HTMLElement | null>(null)
-
 
   const resetDrag = () => {
     dragBtn.current = null
@@ -52,13 +56,11 @@ export const useDragIndexesDemo = (indexes, setIndexes, axisCoord: "X" | "Y") =>
   }
 
   function onDragEnd() {
-
     const newIndexes = sortIndexesByShift(indexes, indexShifts.current)
 
     setIndexes(newIndexes)
     resetDrag()
   }
-
 
   //todo
   const onDragStart = (index: number) => (e: DragEvent) => {
@@ -74,15 +76,12 @@ export const useDragIndexesDemo = (indexes, setIndexes, axisCoord: "X" | "Y") =>
     }
   }
 
-
   const onDrag = (e: DragEvent) => {
     if (dragIndex.current === null) return
 
     const curCoord = axisCoord === "Y" ? e.clientY : e.clientX
 
-
-    if (!firstAxisCoord.current)
-      firstAxisCoord.current = curCoord
+    if (!firstAxisCoord.current) firstAxisCoord.current = curCoord
     else {
       const deltaCoord = curCoord - firstAxisCoord.current
 
@@ -90,27 +89,22 @@ export const useDragIndexesDemo = (indexes, setIndexes, axisCoord: "X" | "Y") =>
     }
   }
 
-
   const setIndexRef = (index: number) => (indexEl: HTMLElement | null) => {
     if (!indexEl) return
     const isDragged = index === dragIndex.current
 
-
     indexEl.ondragenter = !isDragged ? () => onDragEnter(index) : null
     indexEl.draggable = false //TODO how to clean | save arr of elements and clean on unmount? sounds like a trash:D
     indexEl.ondragstart = onDragStart(index)
-
   }
   const setContainerRef = (containerEl: HTMLElement | null) => {
     if (!containerEl) return
 
     containerEl.draggable = false
     containerEl.ondragover = onDrag
-
   }
   const setDragBtnRef = (index: number) => (btnEl: HTMLElement | null) => {
     if (!btnEl) return
-
 
     dragBtn.current = btnEl
     const isDragged = index === dragIndex.current
@@ -121,12 +115,10 @@ export const useDragIndexesDemo = (indexes, setIndexes, axisCoord: "X" | "Y") =>
     btnEl.ondragstart = !isDragged ? () => onDragStart(index) : null
   }
 
-
   return {
     indexShifts: indexShifts.current,
     dragIndex: dragIndex.current,
     deltaAxisCoord,
-    refs: { setIndexRef, setContainerRef, setDragBtnRef }
+    refs: { setIndexRef, setContainerRef, setDragBtnRef },
   }
-
 }

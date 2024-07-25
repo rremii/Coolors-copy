@@ -17,45 +17,45 @@ const axiosBaseQuery =
     unknown,
     ApiError
   > =>
-    async ({
-             url,
-             method,
-             data,
-             params,
-             withCredentials,
-             withInterceptors = true,
-             baseUrl = API_URL
-           }) => {
-      try {
-        let result
-        if (withInterceptors) {
-          result = await $api({
-            url: baseUrl + url,
-            method,
-            data,
-            params,
-            withCredentials
-          })
-        } else
-          result = await $apiDefault({
-            url: baseUrl + url,
-            method,
-            data,
-            params,
-            withCredentials
-          })
-        return { data: result.data }
-      } catch (axiosError) {
-        const err = axiosError as AxiosError<ApiError>
-        return {
-          error: err.response?.data
-        }
+  async ({
+    url,
+    method,
+    data,
+    params,
+    withCredentials,
+    withInterceptors = true,
+    baseUrl = API_URL,
+  }) => {
+    try {
+      let result
+      if (withInterceptors) {
+        result = await $api({
+          url: baseUrl + url,
+          method,
+          data,
+          params,
+          withCredentials,
+        })
+      } else
+        result = await $apiDefault({
+          url: baseUrl + url,
+          method,
+          data,
+          params,
+          withCredentials,
+        })
+      return { data: result.data }
+    } catch (axiosError) {
+      const err = axiosError as AxiosError<ApiError>
+      return {
+        error: err.response?.data,
       }
     }
+  }
 
 export const Api = createApi({
   reducerPath: "ApiRtk",
   baseQuery: axiosBaseQuery(),
   endpoints: () => ({}),
-  tagTypes: []
+  tagTypes: [],
 })

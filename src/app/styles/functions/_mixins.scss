@@ -8,10 +8,10 @@
 //inserting font
 @mixin font($font_name, $file_name, $weight, $style) {
   @font-face {
-
     font-display: swap;
-    src: url("../fonts/#{$file_name}.woff2") format("woff2"),
-    url("../fonts/#{$file_name}.woff") format("woff");
+    src:
+      url("../fonts/#{$file_name}.woff2") format("woff2"),
+      url("../fonts/#{$file_name}.woff") format("woff");
     font-weight: #{$weight};
     font-style: #{$style};
   }
@@ -34,7 +34,6 @@
   $result: ($px/$current) + em;
   @return $result;
 }
-
 
 //Currency
 @mixin currency($sym) {
@@ -106,7 +105,9 @@
   // if clamp is not supported clamp();
   @supports not ($property: $propertyValue) {
     #{$property}: calc(
-            #{rem($minSize)} + #{$addSize} * (100vw - #{rem($widthTo)}) / #{($widthFrom/16) - ($widthTo/ 16)}
+      #{rem($minSize)} + #{$addSize} * (100vw - #{rem($widthTo)}) / #{(
+          $widthFrom/16
+        ) - ($widthTo/ 16)}
     );
   }
 
@@ -118,7 +119,8 @@
     $keepSize !=
     1 and
     $keepSize !=
-    2 {
+    2
+  {
     @media (min-width: $widthFromMedia) {
       #{$property}: inherit;
     }

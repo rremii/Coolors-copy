@@ -1,10 +1,8 @@
 import styled from "styled-components"
 import { useState } from "react"
 
-export const withIsHovered = (Component) => (props => {
-
+export const withIsHovered = (Component) => (props) => {
   const [isHovered, setHovered] = useState(false)
-
 
   const onMouseEnter = () => {
     setHovered(true)
@@ -12,11 +10,11 @@ export const withIsHovered = (Component) => (props => {
   const onMouseLeave = () => {
     setHovered(false)
   }
-  return <Overlay onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
-    <Component  {...props} isHidden={!isHovered} />
-  </Overlay>
-})
+  return (
+    <Overlay onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
+      <Component {...props} isHidden={!isHovered} />
+    </Overlay>
+  )
+}
 
-const Overlay = styled.div`
-
-`
+const Overlay = styled.div``

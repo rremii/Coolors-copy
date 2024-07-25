@@ -6,9 +6,7 @@ export const useRemoveColorFromUrl = (index: number) => {
   const location = useLocation()
 
   const removeColorFromUrl = () => {
-
     const newUrl = removeColorFromUrlStr(index, location.pathname.slice(1))
-
 
     navigate("/" + newUrl)
   }

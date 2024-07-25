@@ -1,6 +1,6 @@
 export enum PickerType {
   rgb = "rgb",
-  hex = "hex"
+  hex = "hex",
 }
 
 export interface IPicker {

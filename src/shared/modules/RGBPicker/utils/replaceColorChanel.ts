@@ -1,7 +1,10 @@
 import { replaceCharByIndex } from "@shared/modules/RGBPicker/utils/replaceCharByIndex.ts"
 
-export const replaceColorChanel = (chanel: "red" | "green" | "blue", hexColor: string, value: string) => {
-
+export const replaceColorChanel = (
+  chanel: "red" | "green" | "blue",
+  hexColor: string,
+  value: string
+) => {
   switch (chanel) {
     case "red":
       return replaceCharByIndex(hexColor, 1, 2, value)
@@ -10,5 +13,4 @@ export const replaceColorChanel = (chanel: "red" | "green" | "blue", hexColor: s
     case "blue":
       return replaceCharByIndex(hexColor, 5, 6, value)
   }
-
 }

@@ -18,13 +18,16 @@ interface Props {
   color: ColorType
 }
 
-export const ColorPickerModal: FC<Props> = ({ isOpen, openBtn, color, index }) => {
+export const ColorPickerModal: FC<Props> = ({
+  isOpen,
+  openBtn,
+  color,
+  index,
+}) => {
   const dispatch = useAppDispatch()
-
 
   const location = useLocation()
   const navigate = useNavigate()
-
 
   const changeColor = (color: string) => {
     const pathName = location.pathname.slice(1)
@@ -38,32 +41,37 @@ export const ColorPickerModal: FC<Props> = ({ isOpen, openBtn, color, index }) =
     navigate("/" + newColorUrl)
   }
 
-
   const { coords, modalRef } = useColorPickerCoords(openBtn, isOpen)
 
-
-  return <PickerModal ref={modalRef} className="PickerModal" $isOpen={isOpen} $x={coords.x + "px"} $y={coords.y + "px"}>
-    <ColorPicker color={rgbToHex(color)} onColorChange={changeColor} />
-  </PickerModal>
-
+  return (
+    <PickerModal
+      ref={modalRef}
+      className="PickerModal"
+      $isOpen={isOpen}
+      $x={coords.x + "px"}
+      $y={coords.y + "px"}
+    >
+      <ColorPicker color={rgbToHex(color)} onColorChange={changeColor} />
+    </PickerModal>
+  )
 }
 const PickerModal = styled(Modal)`
-    background-color: white;
-    border-radius: 10px;
-    z-index: 101;
+  background-color: white;
+  border-radius: 10px;
+  z-index: 101;
 
-
-    @media screen and (max-width: 768px) {
-        opacity: 1;
-        width: 100vw;
-        top: calc(100% - 300px);
-        left: 50%;
-        transition: .3s transform;
-        transform: translateX(-50%) ${({ $isOpen }) => ($isOpen ? "translateY(0)" : "translateY(100%)")};
-        border-radius: 10px 10px 0 0;
-        max-width: 80vw;
-    }
-    @media screen and (max-width: 400px) {
-        max-width: initial;
-    }
+  @media screen and (max-width: 768px) {
+    opacity: 1;
+    width: 100vw;
+    top: calc(100% - 300px);
+    left: 50%;
+    transition: 0.3s transform;
+    transform: translateX(-50%)
+      ${({ $isOpen }) => ($isOpen ? "translateY(0)" : "translateY(100%)")};
+    border-radius: 10px 10px 0 0;
+    max-width: 80vw;
+  }
+  @media screen and (max-width: 400px) {
+    max-width: initial;
+  }
 `

@@ -5,10 +5,6 @@ interface Props {
 }
 
 const Layout: FC<Props> = ({ children }) => {
-  return (
-    <>
-      {children}
-    </>
-  )
+  return <>{children}</>
 }
 export default Layout

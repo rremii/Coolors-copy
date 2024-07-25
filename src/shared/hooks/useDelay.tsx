@@ -29,14 +29,11 @@
 //
 // }
 
-
 import { useState } from "react"
 import { flushSync } from "react-dom"
 
-export function useDelay(delay: number = 200) {
-
+export function useDelay(delay = 200) {
   const [isDelaying, setDelaying] = useState(false)
-
 
   function delayedCb<ArgsT, ReturnT>(cb: (args: ArgsT) => void) {
     return (args: ArgsT): ReturnT => {
@@ -52,14 +49,10 @@ export function useDelay(delay: number = 200) {
           cb(args)
         })
 
-        if (timerId)
-          window.clearTimeout(+timerId)
+        if (timerId) window.clearTimeout(+timerId)
       }, delay)
-
-
     }
   }
 
   return [isDelaying, delayedCb]
-
 }

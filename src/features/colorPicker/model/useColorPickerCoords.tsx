@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 
-export const useColorPickerCoords = (openBtn: HTMLElement | null, isOpen: boolean) => {
+export const useColorPickerCoords = (
+  openBtn: HTMLElement | null,
+  isOpen: boolean
+) => {
   const [coords, setCoords] = useState({
     x: 0,
-    y: 0
+    y: 0,
   })
 
   const modalRef = useRef<HTMLElement | null>(null)
@@ -15,8 +18,8 @@ export const useColorPickerCoords = (openBtn: HTMLElement | null, isOpen: boolea
     const bodyWidth = document.body.clientWidth
 
     const { x, y, width } = openBtn.getBoundingClientRect()
-    const { width: modalWidth, height: modalHeight } = modal.getBoundingClientRect()
-
+    const { width: modalWidth, height: modalHeight } =
+      modal.getBoundingClientRect()
 
     let newX = x + width / 2 - modalWidth / 2
     const newY = y - modalHeight - 25

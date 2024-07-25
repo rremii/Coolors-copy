@@ -6,5 +6,7 @@ export function rgbComponentToHex(c) {
 }
 
 export function rgbToHex([r, g, b]: ColorType) {
-  return "#" + rgbComponentToHex(r) + rgbComponentToHex(g) + rgbComponentToHex(b)
+  return (
+    "#" + rgbComponentToHex(r) + rgbComponentToHex(g) + rgbComponentToHex(b)
+  )
 }

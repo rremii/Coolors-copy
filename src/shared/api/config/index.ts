@@ -4,17 +4,16 @@ export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/"
 
 export const $api = axios.create({
   withCredentials: true,
-  baseURL: API_URL
+  baseURL: API_URL,
 })
 
 export const $apiDefault = axios.create({
   withCredentials: true,
-  baseURL: API_URL
+  baseURL: API_URL,
 })
 
 $api.interceptors.request.use((config) => {
   if (config.headers !== null) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     config.headers.Authorization = `Bearer ${localStorage.getItem(
       "accessToken"
     )}`

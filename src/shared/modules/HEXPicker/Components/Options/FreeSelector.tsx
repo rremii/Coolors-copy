@@ -3,28 +3,23 @@ import { Color } from "../../Interfaces/Color"
 import "./FreeSelector.css"
 
 interface FreeSelectorProps {
-  parsedColor: Color;
-  satCoords: Array<number>;
-  hueCoords: number;
-  onSaturationChange: MouseEventHandler;
-  onHueChange: MouseEventHandler;
+  parsedColor: Color
+  satCoords: Array<number>
+  hueCoords: number
+  onSaturationChange: MouseEventHandler
+  onHueChange: MouseEventHandler
 }
 
 export const FreeSelector = (props: FreeSelectorProps) => {
-  const {
-    parsedColor,
-    satCoords,
-    hueCoords,
-    onSaturationChange,
-    onHueChange
-  } = props
+  const { parsedColor, satCoords, hueCoords, onSaturationChange, onHueChange } =
+    props
 
   return (
     <div className="cp-free-root">
       <div
         className="cp-saturation"
         style={{
-          backgroundColor: `hsl(${parsedColor.hsv.h}, 100%, 50%)`
+          backgroundColor: `hsl(${parsedColor.hsv.h}, 100%, 50%)`,
         }}
         onClick={onSaturationChange}
       >
@@ -33,7 +28,7 @@ export const FreeSelector = (props: FreeSelectorProps) => {
           style={{
             backgroundColor: parsedColor.hex,
             left: (satCoords?.[0] ?? 0) + "%",
-            top: (satCoords?.[1] ?? 0) + "%"
+            top: (satCoords?.[1] ?? 0) + "%",
           }}
         />
       </div>
@@ -42,7 +37,7 @@ export const FreeSelector = (props: FreeSelectorProps) => {
           className="cp-hue-indicator"
           style={{
             backgroundColor: parsedColor.hex,
-            left: (hueCoords ?? 0) + "%"
+            left: (hueCoords ?? 0) + "%",
           }}
         />
       </div>

@@ -1,16 +1,16 @@
 // PAGE SETTINGS ===============================================================================================================================================================================================================================================================================================
 // minimum width of page
-export const minWidth: number = 320
+export const minWidth = 320
 
 // maximum width of page
-export const maxWidth: number = 1980
+export const maxWidth = 1980
 
 // width of bounding container(0 = no padding)
-export const maxWidthWrapper: number = 1700
+export const maxWidthWrapper = 1700
 
 // general padding of container
 // (30 =  15px to left and right, 0 = no padding)
-export const wrapperPadding: number = 0
+export const wrapperPadding = 0
 
 // The width of the first breakpoint trigger
 export const wrapperWidth = maxWidthWrapper + wrapperPadding

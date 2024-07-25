@@ -4,7 +4,6 @@ import { HEXPickerAdapter } from "@features/colorPicker/model/HEXPickerAdapter.t
 import { RGBPickerAdapter } from "@features/colorPicker/model/RGBPickerAdapter.tsx"
 
 export const pickerFabric = (type: PickerType): FC<IPicker> => {
-
   switch (type) {
     case PickerType.hex:
       return HEXPickerAdapter
@@ -13,5 +12,4 @@ export const pickerFabric = (type: PickerType): FC<IPicker> => {
     default:
       return HEXPickerAdapter
   }
-
 }

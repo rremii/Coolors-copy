@@ -8,22 +8,24 @@ interface Props {
   iconColor?: string
 }
 
-export const DragColor: FC<Props> = forwardRef(({ isHidden, iconColor }, ref) => {
-
-  return <SettingBtn ref={ref} isHidden={isHidden}>
-    <IconCont>
-      <DragIcon stroke={iconColor} />
-    </IconCont>
-  </SettingBtn>
-})
+export const DragColor: FC<Props> = forwardRef(
+  ({ isHidden, iconColor }, ref) => {
+    return (
+      <SettingBtn ref={ref} isHidden={isHidden}>
+        <IconCont>
+          <DragIcon stroke={iconColor} />
+        </IconCont>
+      </SettingBtn>
+    )
+  }
+)
 const IconCont = styled.div`
-    width: max-content;
-    height: max-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    @media screen and (max-width: 768px) {
-        transform: rotate(90deg);
-    }
-
+  width: max-content;
+  height: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 768px) {
+    transform: rotate(90deg);
+  }
 `

@@ -1,4 +1,4 @@
-export const DEFAULT_COLOR = "#181d23";
+export const DEFAULT_COLOR = "#181d23"
 
 export const DEFAULT_COLORS = [
   "#000000",
@@ -24,5 +24,5 @@ export const DEFAULT_COLORS = [
   "#ba68c8",
   "#3e2723",
   "#6d4c41",
-  "#a1887f"
-];
+  "#a1887f",
+]

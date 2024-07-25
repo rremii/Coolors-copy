@@ -12,7 +12,6 @@ interface Props {
   index: number
 }
 
-
 const AddColor: FC<Props> = ({ isHidden, index }) => {
   const dispatch = useAppDispatch()
 
@@ -25,11 +24,12 @@ const AddColor: FC<Props> = ({ isHidden, index }) => {
     if (allColors.length >= 6) return
 
     addColorToUrl()
-    dispatch(insertNewColor({
-      color: newColor,
-      index
-    }))
-
+    dispatch(
+      insertNewColor({
+        color: newColor,
+        index,
+      })
+    )
   }
 
   return <Cross onClick={addColor} isHidden={isHidden} />

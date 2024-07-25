@@ -5,19 +5,18 @@ import { useRandomizeColorsKeyPress } from "@widgets/ColorsDragNDrop/model/useRa
 import { KeyCodes } from "@shared/hooks/useKeyPress.tsx"
 
 export const ColorsPage = () => {
-
   useSetDefaultColorsFromUrl()
 
   useRandomizeColorsKeyPress(KeyCodes.space)
 
-
-  return <ColorsPageLayout>
-    <ColorsDragNDrop />
-  </ColorsPageLayout>
+  return (
+    <ColorsPageLayout>
+      <ColorsDragNDrop />
+    </ColorsPageLayout>
+  )
 }
 const ColorsPageLayout = styled.div`
-    width: 100%;
-    height: 100%;
-    position: relative;
-
+  width: 100%;
+  height: 100%;
+  position: relative;
 `

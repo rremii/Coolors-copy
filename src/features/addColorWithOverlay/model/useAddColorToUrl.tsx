@@ -9,10 +9,12 @@ export const useAddColorToUrl = (index: number) => {
 
   const newColor = useGetNewColorByIndex(index)
 
-
   const addColorToUrl = () => {
-
-    const newUrl = addNewColorToUrlStr(index, rgbToHex(newColor), location.pathname.slice(1))
+    const newUrl = addNewColorToUrlStr(
+      index,
+      rgbToHex(newColor),
+      location.pathname.slice(1)
+    )
 
     navigate("/" + newUrl)
   }

@@ -3,8 +3,4 @@ import { withRouter } from "./with-router"
 import { withStore } from "./with-store"
 import { withSuspense } from "./with-suspense.tsx"
 
-export const withProviders = compose(
-  withRouter,
-  withStore,
-  withSuspense
-)
+export const withProviders = compose(withRouter, withStore, withSuspense)

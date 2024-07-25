@@ -9,8 +9,6 @@ interface Props {
 }
 
 const AppLayout: FC<Props> = ({ children }) => {
-
-
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -26,21 +24,16 @@ const AppLayout: FC<Props> = ({ children }) => {
     navigate(`/${hex1}-${hex2}`)
   }, [])
 
-
-  return (
-    <LayoutStyles>
-      {children}
-    </LayoutStyles>
-  )
+  return <LayoutStyles>{children}</LayoutStyles>
 }
 export default AppLayout
 const LayoutStyles = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    margin: 0 auto;
-    background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  background-color: white;
 `

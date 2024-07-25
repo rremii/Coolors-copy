@@ -10,19 +10,19 @@ interface Props {
 }
 
 export const ColorName: FC<Props> = ({ color }) => {
-
   const hex = rgbToHex(color)
 
   const { name: colorName } = closest(hex)
 
-  return <ColorNameLayout $color={getContrastColor(color)}>
-    {colorName}
-  </ColorNameLayout>
+  return (
+    <ColorNameLayout $color={getContrastColor(color)}>
+      {colorName}
+    </ColorNameLayout>
+  )
 }
 const ColorNameLayout = styled.span<{
   $color?: string
 }>`
-    color: ${({ $color }) => $color};
-    font-size: 15px;
-
+  color: ${({ $color }) => $color};
+  font-size: 15px;
 `

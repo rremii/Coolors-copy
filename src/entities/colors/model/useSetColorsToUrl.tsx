@@ -6,12 +6,10 @@ export const useSetColorsToUrl = () => {
   const navigate = useNavigate()
 
   const setColorsToUrl = (colors: ColorType[]) => {
-
     const pathname = getStrFromColors(colors)
 
     navigate("/" + pathname)
   }
 
   return { setColorsToUrl }
-
 }

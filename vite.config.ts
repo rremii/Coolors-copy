@@ -11,8 +11,8 @@ export default defineConfig({
       "@entities": path.resolve(__dirname, "./src/entities"),
       "@features": path.resolve(__dirname, "./src/features"),
       "@widgets": path.resolve(__dirname, "./src/widgets"),
-      "@icons": path.resolve(__dirname, "./public/icons")
-    }
+      "@icons": path.resolve(__dirname, "./public/icons"),
+    },
   },
-  plugins: [svgr(), react()]
+  plugins: [svgr(), react()],
 })

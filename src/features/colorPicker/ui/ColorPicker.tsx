@@ -12,10 +12,8 @@ interface Props {
 
 //todo can be moved to shared !!!
 export const ColorPicker: FC<Props> = ({ onColorChange, color }) => {
-
   const [pickerType, setPickerType] = useState<PickerType>(PickerType.hex)
   const [isPicker, setIsPicker] = useState(true)
-
 
   const changeColor = (color) => {
     onColorChange(color)
@@ -29,28 +27,36 @@ export const ColorPicker: FC<Props> = ({ onColorChange, color }) => {
     setIsPicker((isPicker) => !isPicker)
   }
 
-
   const Picker = pickerFabric(pickerType)
 
-  return <PickerLayout>
-    <div className="picker-content">
-      {isPicker ?
-        <Picker color={color} handleChange={changeColor} /> :
-        <ChoosePickerType onSubmit={setPicker} />}
-    </div>
-    <PickerFooter pickerType={pickerType} togglePicker={togglePicker} color={color} isPicker={isPicker} />
-  </PickerLayout>
+  return (
+    <PickerLayout>
+      <div className="picker-content">
+        {isPicker ? (
+          <Picker color={color} handleChange={changeColor} />
+        ) : (
+          <ChoosePickerType onSubmit={setPicker} />
+        )}
+      </div>
+      <PickerFooter
+        pickerType={pickerType}
+        togglePicker={togglePicker}
+        color={color}
+        isPicker={isPicker}
+      />
+    </PickerLayout>
+  )
 }
 const PickerLayout = styled.div`
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    color: black;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: black;
 
-    cursor: initial;
+  cursor: initial;
 
-    .picker-content {
-        width: 100%;
-        height: 250px;
-    }
+  .picker-content {
+    width: 100%;
+    height: 250px;
+  }
 `

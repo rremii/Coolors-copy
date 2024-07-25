@@ -10,21 +10,21 @@ export function getRgb(color: string): ColorRGB {
   return {
     r,
     g,
-    b
+    b,
   }
 }
 
 export function parseColor(color: string): Color {
-  var hex = ""
-  var rgb = {
+  let hex = ""
+  let rgb = {
     r: 0,
     g: 0,
-    b: 0
+    b: 0,
   }
-  var hsv = {
+  let hsv = {
     h: 0,
     s: 0,
-    v: 0
+    v: 0,
   }
 
   if (color.slice(0, 1) === "#") {
@@ -40,7 +40,7 @@ export function parseColor(color: string): Color {
   return {
     hex,
     rgb,
-    hsv
+    hsv,
   }
 }
 

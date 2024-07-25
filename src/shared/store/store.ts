@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import { ColorsReducer } from "@entities/colors/model/colorsSlice.ts"
 
 const rootReducer = combineReducers({
-  Colors: ColorsReducer
+  Colors: ColorsReducer,
   // [Api.reducerPath]: Api.reducer
 })
 
@@ -11,7 +11,7 @@ export const setupStore = () => {
     reducer: rootReducer,
     // middleware: (getDefaultMiddleware) =>
     //   getDefaultMiddleware().concat(Api.middleware),
-    devTools: true
+    devTools: true,
   })
 }
 

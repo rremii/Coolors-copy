@@ -4,6 +4,6 @@ export const mergeColors = (colors: [ColorType, ColorType]): ColorType => {
   return [
     Math.floor((colors[0][0] + colors[1][0]) / 2),
     Math.floor((colors[0][1] + colors[1][1]) / 2),
-    Math.floor((colors[0][2] + colors[1][2]) / 2)
+    Math.floor((colors[0][2] + colors[1][2]) / 2),
   ]
 }

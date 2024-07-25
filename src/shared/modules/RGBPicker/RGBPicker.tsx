@@ -8,20 +8,34 @@ interface Props {
 }
 
 export const RGBPicker: FC<Props> = ({ color, handleChange }) => {
-
-
-  return <RGBPickerLayout>
-    <ColorChanel name="Red" onColorChange={handleChange} colorHex={color} chanel={"red"} />
-    <ColorChanel name="Green" onColorChange={handleChange} colorHex={color} chanel={"green"} />
-    <ColorChanel name="Blue" onColorChange={handleChange} colorHex={color} chanel={"blue"} />
-  </RGBPickerLayout>
+  return (
+    <RGBPickerLayout>
+      <ColorChanel
+        name="Red"
+        onColorChange={handleChange}
+        colorHex={color}
+        chanel={"red"}
+      />
+      <ColorChanel
+        name="Green"
+        onColorChange={handleChange}
+        colorHex={color}
+        chanel={"green"}
+      />
+      <ColorChanel
+        name="Blue"
+        onColorChange={handleChange}
+        colorHex={color}
+        chanel={"blue"}
+      />
+    </RGBPickerLayout>
+  )
 }
 const RGBPickerLayout = styled.div`
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 20px;
-    height: 230px;
-
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  height: 230px;
 `

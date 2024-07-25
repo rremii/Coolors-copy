@@ -1,10 +1,10 @@
 import { ColorHSV, ColorRGB } from "../Interfaces/Color"
 
 export function rgbToHex(color: ColorRGB): string {
-  var { r, g, b } = color
-  var hexR = r.toString(16)
-  var hexG = g.toString(16)
-  var hexB = b.toString(16)
+  const { r, g, b } = color
+  let hexR = r.toString(16)
+  let hexG = g.toString(16)
+  let hexB = b.toString(16)
 
   if (hexR.length === 1) hexR = "0" + r
   if (hexG.length === 1) hexG = "0" + g
@@ -14,9 +14,9 @@ export function rgbToHex(color: ColorRGB): string {
 }
 
 export function hexToRgb(color: string): ColorRGB {
-  var r = 0
-  var g = 0
-  var b = 0
+  let r = 0
+  let g = 0
+  let b = 0
 
   // 3 digits
   if (color.length === 4) {
@@ -34,12 +34,12 @@ export function hexToRgb(color: string): ColorRGB {
   return {
     r,
     g,
-    b
+    b,
   }
 }
 
 export function rgbToHsv(color: ColorRGB): ColorHSV {
-  var { r, g, b } = color
+  let { r, g, b } = color
   r /= 255
   g /= 255
   b /= 255
@@ -49,10 +49,10 @@ export function rgbToHsv(color: ColorRGB): ColorHSV {
 
   const h = d
     ? (max === r
-    ? (g - b) / d + (g < b ? 6 : 0)
-    : max === g
-      ? 2 + (b - r) / d
-      : 4 + (r - g) / d) * 60
+        ? (g - b) / d + (g < b ? 6 : 0)
+        : max === g
+          ? 2 + (b - r) / d
+          : 4 + (r - g) / d) * 60
     : 0
   const s = max ? (d / max) * 100 : 0
   const v = max * 100
@@ -61,7 +61,7 @@ export function rgbToHsv(color: ColorRGB): ColorHSV {
 }
 
 export function hsvToRgb(color: ColorHSV): ColorRGB {
-  var { h, s, v } = color
+  let { h, s, v } = color
   s /= 100
   v /= 100
 
@@ -79,6 +79,6 @@ export function hsvToRgb(color: ColorHSV): ColorRGB {
   return {
     r,
     g,
-    b
+    b,
   }
 }

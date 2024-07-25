@@ -1,13 +1,19 @@
 import React from "react"
-import { clamp, getHueCoordinates, getSaturationCoordinates, hsvToRgb, parseColor, rgbToHex } from "../Utils"
+import {
+  clamp,
+  getHueCoordinates,
+  getSaturationCoordinates,
+  hsvToRgb,
+  parseColor,
+  rgbToHex,
+} from "../Utils"
 import "./ColorPicker.css"
 import { FreeSelector } from "./Options"
 
-
 interface ColorPickerProps {
-  color: string;
+  color: string
 
-  onChange(color: string): void;
+  onChange(color: string): void
 }
 
 export const ColorPicker = (props: ColorPickerProps) => {
@@ -18,13 +24,12 @@ export const ColorPicker = (props: ColorPickerProps) => {
   const hueCoords = getHueCoordinates(parsedColor)
 
   const handleHexChange = (event) => {
-    var val = event.target.value
+    let val = event.target.value
     if (val?.slice(0, 1) !== "#") {
       val = "#" + val
     }
     onChange(val)
   }
-
 
   const handleSaturationChange = (event) => {
     const { width, height, left, top } = event.target.getBoundingClientRect()
@@ -60,10 +65,17 @@ export const ColorPicker = (props: ColorPickerProps) => {
         onHueChange={handleHueChange}
       />
       <div className="cp-input-container">
-        <div className="color-preview" style={{ backgroundColor: parsedColor.hex }} />
-        <input className="color-input" type="text" value={parsedColor?.hex} onChange={handleHexChange} />
+        <div
+          className="color-preview"
+          style={{ backgroundColor: parsedColor.hex }}
+        />
+        <input
+          className="color-input"
+          type="text"
+          value={parsedColor?.hex}
+          onChange={handleHexChange}
+        />
       </div>
     </div>
   )
 }
-

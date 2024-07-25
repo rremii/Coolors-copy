@@ -9,8 +9,9 @@ export const useGetColorsFromUrl = (): ColorType[] => {
 
   if (!pathname) return []
 
-  const colorsHex = pathname.split("-").map((colorValue => "#" + colorValue))
+  const colorsHex = pathname.split("-").map((colorValue) => "#" + colorValue)
 
-  return colorsHex.map((colorHex) => hexToRgb(colorHex)).filter((color) => !!color) as ColorType[]
-
+  return colorsHex
+    .map((colorHex) => hexToRgb(colorHex))
+    .filter((color) => !!color)
 }
