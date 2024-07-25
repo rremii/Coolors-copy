@@ -28,7 +28,7 @@ const AddColor: FC<Props> = ({ isHidden, index }) => {
       insertNewColor({
         color: newColor,
         index,
-      })
+      }),
     )
   }
 

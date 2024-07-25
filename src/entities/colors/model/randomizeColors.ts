@@ -3,9 +3,9 @@ import { getRandomColor } from "@shared/helpers/getRandomColor.ts"
 
 export const randomizeColors = (
   colors: ColorType[],
-  exceptionIndexes: number[]
+  exceptionIndexes: number[],
 ) => {
   return colors.map((color, index) =>
-    !exceptionIndexes.includes(index) ? getRandomColor() : color
+    !exceptionIndexes.includes(index) ? getRandomColor() : color,
   )
 }

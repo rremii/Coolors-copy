@@ -6,7 +6,7 @@ export enum KeyCodes {
 
 export const useKeyPress = (keyCode: KeyCodes, cb: () => void) => {
   const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.code === keyCode) cb()
+    if (e.code === keyCode as string) cb()
   }
 
   useEffect(() => {

@@ -32,10 +32,10 @@ export const RGBPicker: FC<Props> = ({ color, handleChange }) => {
   )
 }
 const RGBPickerLayout = styled.div`
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-  height: 230px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    height: 230px;
 `

@@ -1,5 +1,10 @@
 {
-  "files": ["**/*.tsx", "**/*.ts", "**/*.jsx", "**/*.js"],
+  "files": [
+    "**/*.tsx",
+    "**/*.ts",
+    "**/*.jsx",
+    "**/*.js"
+  ],
   "references": [
     {
       "path": "./tsconfig.app.json"

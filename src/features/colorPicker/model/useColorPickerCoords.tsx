@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 
 export const useColorPickerCoords = (
   openBtn: HTMLElement | null,
-  isOpen: boolean
+  isOpen: boolean,
 ) => {
   const [coords, setCoords] = useState({
     x: 0,

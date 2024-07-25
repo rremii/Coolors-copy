@@ -3,7 +3,7 @@ import { replaceCharByIndex } from "@shared/modules/RGBPicker/utils/replaceCharB
 export const replaceColorChanel = (
   chanel: "red" | "green" | "blue",
   hexColor: string,
-  value: string
+  value: string,
 ) => {
   switch (chanel) {
     case "red":

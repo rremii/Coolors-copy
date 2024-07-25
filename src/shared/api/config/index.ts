@@ -1,6 +1,6 @@
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 
-export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/"
+export const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:5000/") as string
 
 export const $api = axios.create({
   withCredentials: true,
@@ -15,7 +15,7 @@ export const $apiDefault = axios.create({
 $api.interceptors.request.use((config) => {
   if (config.headers !== null) {
     config.headers.Authorization = `Bearer ${localStorage.getItem(
-      "accessToken"
+      "accessToken",
     )}`
   }
   return config
@@ -24,7 +24,7 @@ $api.interceptors.response.use(
   (config) => {
     return config
   },
-  async (error) => {
+  async (error: AxiosError<unknown>) => {
     const originalRequest = error.config
     if (
       error.response.status === 401 &&
@@ -35,7 +35,7 @@ $api.interceptors.response.use(
       try {
         const response = await axios.get<{ accessToken: string }>(
           API_URL + "auth/refresh",
-          { withCredentials: true }
+          { withCredentials: true },
         )
         localStorage.setItem("accessToken", response.data.accessToken)
         return await $api.request(originalRequest)
@@ -45,5 +45,5 @@ $api.interceptors.response.use(
       }
     }
     throw error
-  }
+  },
 )

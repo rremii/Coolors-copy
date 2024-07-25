@@ -3,7 +3,7 @@ import { swap } from "@shared/helpers/swap.ts"
 
 function sortIndexesByShift<T>(
   indexes: Array<T>,
-  shifts: Array<number>
+  shifts: Array<number>,
 ): Array<T> {
   if (shifts.length < 2) return indexes
 
@@ -32,7 +32,7 @@ function sortIndexesByShift<T>(
   return newIndexes
 }
 
-export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
+export const useDragIndexes = (indexes: number[], setIndexes: (indexes: number[]) => void, axisCoord: "X" | "Y") => {
   const indexShifts = useRef([])
   const dragIndex = useRef<number | null>(null)
   const firstAxisCoord = useRef(0)
@@ -50,7 +50,7 @@ export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
     dragIndexEl.current = null
     dragIndex.current = null
     firstAxisCoord.current = 0
-    indexShifts.current = new Array(indexes.length || 0).fill(0)
+    indexShifts.current = new Array(indexes.length || 0).fill(0) as number[]
     setDeltaCoord(0)
   }
 
@@ -96,7 +96,6 @@ export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
   }
 
   function onDragEnd() {
-    console.log("end")
     isDraggin.current = false
 
     const newIndexes = sortIndexesByShift(indexes, indexShifts.current)
@@ -106,7 +105,6 @@ export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
   }
 
   const onDragStart = (index: number, btnEl: HTMLElement) => () => {
-    console.log("start")
 
     dragBtn.current = btnEl
     dragIndex.current = index
@@ -114,7 +112,7 @@ export const useDragIndexes = (indexes, setIndexes, axisCoord: "X" | "Y") => {
 
     let newDragIndexEl: HTMLElement | null = null
     allIndexes.current.forEach(
-      (indexEl) => indexEl.contains(btnEl) && (newDragIndexEl = indexEl)
+      (indexEl) => indexEl.contains(btnEl) && (newDragIndexEl = indexEl),
     )
 
     if (newDragIndexEl) dragIndexEl.current = newDragIndexEl

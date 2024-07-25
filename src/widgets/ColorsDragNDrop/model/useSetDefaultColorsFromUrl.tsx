@@ -1,10 +1,7 @@
 import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
 import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
 import { useEffect } from "react"
-import {
-  createColors,
-  setHasMountAnimation,
-} from "@entities/colors/model/colorsSlice.ts"
+import { createColors, setHasMountAnimation } from "@entities/colors/model/colorsSlice.ts"
 
 export const useSetDefaultColorsFromUrl = () => {
   const dispatch = useAppDispatch()

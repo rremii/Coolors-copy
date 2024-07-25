@@ -1,10 +1,6 @@
 import { ColorLineWithDeleting } from "@widgets/ColorsDragNDrop/ui/ColorLine.tsx"
 import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
-import {
-  IColorCell,
-  setColors,
-  setHasMountAnimation,
-} from "@entities/colors/model/colorsSlice.ts"
+import { IColorCell, setColors, setHasMountAnimation } from "@entities/colors/model/colorsSlice.ts"
 import styled from "styled-components"
 import { useSetColorsToUrl } from "@entities/colors/model/useSetColorsToUrl.tsx"
 import { useRef } from "react"
@@ -38,15 +34,15 @@ export const ColorsDragNDrop = () => {
 
         const styles = isDraggin
           ? {
-              transition: isDragged ? "0s" : "0.3s",
-              transform: `translate${axis}(${isDragged ? deltaAxisCoord + "px" : indexShifts[index] * 100 + "%"})`,
-              zIndex: isDragged ? 100 : "initial",
-            }
+            transition: isDragged ? "0s" : "0.3s",
+            transform: `translate${axis}(${isDragged ? deltaAxisCoord + "px" : indexShifts[index] * 100 + "%"})`,
+            zIndex: isDragged ? 100 : "initial",
+          }
           : {
-              transition: "0s",
-              pointerEvents: "initial",
-              zIndex: "initial",
-            }
+            transition: "0s",
+            pointerEvents: "initial",
+            zIndex: "initial",
+          }
         return (
           <ColorLineWithDeleting
             id={id}
@@ -65,12 +61,12 @@ export const ColorsDragNDrop = () => {
   )
 }
 const DragNDropLayout = styled.div`
-  position: relative;
-  display: flex;
-  background-color: white;
-  width: 100%;
-  height: 100%;
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  }
+    position: relative;
+    display: flex;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+    }
 `

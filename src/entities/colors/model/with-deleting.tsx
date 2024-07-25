@@ -2,7 +2,7 @@ import { FC, forwardRef } from "react"
 import { useDelay } from "@shared/hooks/useDelay.tsx"
 
 export type DelayDeleteCbType = <ArgsT, ReturnT>(
-  cb: (args: ArgsT) => void
+  cb: (args: ArgsT) => void,
 ) => (args: ArgsT) => ReturnT
 
 export interface WithDeleting {

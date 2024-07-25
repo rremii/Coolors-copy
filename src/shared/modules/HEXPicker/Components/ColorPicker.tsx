@@ -1,12 +1,5 @@
 import React from "react"
-import {
-  clamp,
-  getHueCoordinates,
-  getSaturationCoordinates,
-  hsvToRgb,
-  parseColor,
-  rgbToHex,
-} from "../Utils"
+import { clamp, getHueCoordinates, getSaturationCoordinates, hsvToRgb, parseColor, rgbToHex } from "../Utils"
 import "./ColorPicker.css"
 import { FreeSelector } from "./Options"
 

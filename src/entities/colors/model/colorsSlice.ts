@@ -30,7 +30,7 @@ export const ColorsSlice = createSlice({
     },
     removeLockedColor(state, action: PayloadAction<{ id: number }>) {
       state.lockedColorsIds = state.lockedColorsIds.filter(
-        (id) => id !== action.payload.id
+        (id) => id !== action.payload.id,
       )
     },
 
@@ -54,17 +54,17 @@ export const ColorsSlice = createSlice({
     },
     replaceColor(
       state,
-      action: PayloadAction<{ index: number; color: ColorType }>
+      action: PayloadAction<{ index: number; color: ColorType }>,
     ) {
       const { color, index } = action.payload
 
       state.colors = state.colors.map((colorCell, i) =>
-        i === index ? { color, id: colorCell.id } : colorCell
+        i === index ? { color, id: colorCell.id } : colorCell,
       )
     },
     insertNewColor(
       state,
-      action: PayloadAction<{ index: number; color: ColorType }>
+      action: PayloadAction<{ index: number; color: ColorType }>,
     ) {
       const { index, color } = action.payload
 
@@ -108,8 +108,8 @@ export const getLockedColorIndexes = createSelector(
     const lockedIndexes: number[] = []
     colors.forEach(
       ({ id }, index) =>
-        lockedColorsIds.includes(id) && lockedIndexes.push(index)
+        lockedColorsIds.includes(id) && lockedIndexes.push(index),
     )
     return lockedIndexes
-  }
+  },
 )

@@ -12,7 +12,7 @@ interface Props {
 
 export const CopyColor: FC<Props> = ({ isHidden, iconColor, color }) => {
   const copyColor = () => {
-    if (color) navigator.clipboard.writeText(rgbToHex(color))
+    if (color) navigator.clipboard.writeText(rgbToHex(color)).catch(err => console.log(err))
   }
 
   return (

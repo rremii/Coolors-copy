@@ -13,13 +13,13 @@ interface Props {
 }
 
 export const PickerFooter: FC<Props> = ({
-  togglePicker,
-  color,
-  isPicker,
-  pickerType,
-}) => {
+                                          togglePicker,
+                                          color,
+                                          isPicker,
+                                          pickerType,
+                                        }) => {
   const copyColor = () => {
-    if (color) navigator.clipboard.writeText(color)
+    if (color) navigator.clipboard.writeText(color).catch(err => console.log(err))
   }
 
   return (
@@ -32,10 +32,10 @@ export const PickerFooter: FC<Props> = ({
   )
 }
 const FooterLayout = styled.footer`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 15px;
-  height: 50px;
-  border-top: rgba(0, 0, 0, 0.23) solid 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    height: 50px;
+    border-top: rgba(0, 0, 0, 0.23) solid 1px;
 `

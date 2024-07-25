@@ -15,7 +15,7 @@ export const ColorPicker: FC<Props> = ({ onColorChange, color }) => {
   const [pickerType, setPickerType] = useState<PickerType>(PickerType.hex)
   const [isPicker, setIsPicker] = useState(true)
 
-  const changeColor = (color) => {
+  const changeColor = (color: string) => {
     onColorChange(color)
   }
 
@@ -48,15 +48,15 @@ export const ColorPicker: FC<Props> = ({ onColorChange, color }) => {
   )
 }
 const PickerLayout = styled.div`
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  color: black;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    color: black;
 
-  cursor: initial;
+    cursor: initial;
 
-  .picker-content {
-    width: 100%;
-    height: 250px;
-  }
+    .picker-content {
+        width: 100%;
+        height: 250px;
+    }
 `

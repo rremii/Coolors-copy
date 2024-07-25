@@ -13,7 +13,7 @@ export const useAddColorToUrl = (index: number) => {
     const newUrl = addNewColorToUrlStr(
       index,
       rgbToHex(newColor),
-      location.pathname.slice(1)
+      location.pathname.slice(1),
     )
 
     navigate("/" + newUrl)

@@ -1,6 +1,6 @@
 import { BaseQueryFn, createApi } from "@reduxjs/toolkit/query/react"
 import { $api, $apiDefault, API_URL } from "./index"
-import { AxiosError, AxiosRequestConfig } from "axios"
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import { ApiError } from "@shared/api/config/types"
 
 const axiosBaseQuery =
@@ -8,8 +8,8 @@ const axiosBaseQuery =
     {
       url: string
       method: AxiosRequestConfig["method"]
-      data?: AxiosRequestConfig["data"]
-      params?: AxiosRequestConfig["params"]
+      data: unknown
+      params: unknown
       withInterceptors?: boolean //use default axios, instead of custom with interceptors
       baseUrl?: string
       withCredentials?: boolean
@@ -17,41 +17,41 @@ const axiosBaseQuery =
     unknown,
     ApiError
   > =>
-  async ({
-    url,
-    method,
-    data,
-    params,
-    withCredentials,
-    withInterceptors = true,
-    baseUrl = API_URL,
-  }) => {
-    try {
-      let result
-      if (withInterceptors) {
-        result = await $api({
+    async ({
+             url,
+             method,
+             data,
+             params,
+             withCredentials,
+             withInterceptors = true,
+             baseUrl = API_URL,
+           }) => {
+      try {
+        const requestConfig: AxiosRequestConfig = {
           url: baseUrl + url,
           method,
           data,
           params,
           withCredentials,
-        })
-      } else
-        result = await $apiDefault({
-          url: baseUrl + url,
-          method,
-          data,
-          params,
-          withCredentials,
-        })
-      return { data: result.data }
-    } catch (axiosError) {
-      const err = axiosError as AxiosError<ApiError>
-      return {
-        error: err.response?.data,
+        }
+
+
+        let result: AxiosResponse
+        
+        if (withInterceptors)
+          result = await $api(requestConfig)
+        else
+          result = await $apiDefault(requestConfig)
+
+        return { data: result.data }
+      } catch (axiosError) {
+
+        const err = axiosError as AxiosError<ApiError>
+        return {
+          error: err.response?.data,
+        }
       }
     }
-  }
 
 export const Api = createApi({
   reducerPath: "ApiRtk",

@@ -19,11 +19,11 @@ interface Props {
 }
 
 export const ColorPickerModal: FC<Props> = ({
-  isOpen,
-  openBtn,
-  color,
-  index,
-}) => {
+                                              isOpen,
+                                              openBtn,
+                                              color,
+                                              index,
+                                            }) => {
   const dispatch = useAppDispatch()
 
   const location = useLocation()

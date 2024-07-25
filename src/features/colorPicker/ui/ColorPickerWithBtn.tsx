@@ -12,11 +12,11 @@ interface Props {
 }
 
 export const ColorPickerWithBtn: FC<Props> = ({
-  children,
-  decorationColor,
-  color,
-  index,
-}) => {
+                                                children,
+                                                decorationColor,
+                                                color,
+                                                index,
+                                              }) => {
   const [isPicker, setIsPicker] = useState(false)
 
   const openBtnRef = useRef<HTMLButtonElement | null>(null)
@@ -55,48 +55,48 @@ export const ColorPickerWithBtn: FC<Props> = ({
               isOpen={isPicker}
             />
           </>,
-          document.body
+          document.body,
         )}
       </ColorPickerWithBtnLayout>
     </>
   )
 }
 const ColorPickerWithBtnLayout = styled.div`
-  position: relative;
-  width: min-content;
-  height: min-content;
+    position: relative;
+    width: min-content;
+    height: min-content;
 
-  //.PickerModal {
-  //    left: 50%;
-  //    transform: translateX(-50%);
-  //    bottom: calc(100% + 20px);
-  //}
+    //.PickerModal {
+    //    left: 50%;
+    //    transform: translateX(-50%);
+    //    bottom: calc(100% + 20px);
+    //}
 `
 const OpenPickerBtn = styled.button<{
   $color?: string
   $isActive?: boolean
 }>`
-  font-size: clamp(20px, 2.5vw, 30px);
+    font-size: clamp(20px, 2.5vw, 30px);
 
-  padding: 10px 7px;
-  border-radius: 10px;
-  color: ${({ $color }) => $color};
+    padding: 10px 7px;
+    border-radius: 10px;
+    color: ${({ $color }) => $color};
 
-  &:after {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
+    &:after {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
 
-    transition: 0.3s;
-    opacity: ${({ $isActive }) => ($isActive ? 0.2 : 0)};
-    background-color: ${({ $color }) => $color};
-  }
+        transition: 0.3s;
+        opacity: ${({ $isActive }) => ($isActive ? 0.2 : 0)};
+        background-color: ${({ $color }) => $color};
+    }
 
-  &:hover:after {
-    opacity: 0.2;
-  }
+    &:hover:after {
+        opacity: 0.2;
+    }
 `

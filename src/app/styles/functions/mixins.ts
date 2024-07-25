@@ -8,7 +8,7 @@ export const AdaptiveValue = (
   startSize: number,
   minSize: number,
   widthFrom = wrapperWidth,
-  widthTo = minWidth
+  widthTo = minWidth,
 ) => {
   if (startSize === 0) startSize = 0.000001
 
@@ -19,8 +19,8 @@ export const AdaptiveValue = (
   }
 
   // break points in EM
-  const widthFromMedia = Em(widthFrom)
-  const widthToMedia = Em(widthTo)
+  // const widthFromMedia = Em(widthFrom)
+  // const widthToMedia = Em(widthTo)
 
   // formula of fly value
   const slope = (startSize - minSize) / (widthFrom - widthTo)
