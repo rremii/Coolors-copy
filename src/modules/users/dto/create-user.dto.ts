@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator"
+import { IsEmail, IsHexColor, IsNotEmpty, IsString } from "class-validator"
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -12,7 +12,7 @@ export class CreateUserDto {
   @IsString()
   name: string
 
-  @IsNotEmpty()
+  @IsHexColor()
   @IsString()
-  avatar?: string
+  colorHex: string
 }

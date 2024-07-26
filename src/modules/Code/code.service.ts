@@ -9,7 +9,6 @@ import { UsersService } from "../users/users.service"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Code } from "./entities/code.entity"
 import { LessThan, Repository } from "typeorm"
-import { ConfigService } from "@nestjs/config"
 import { GetAuthCodeExpTime } from "../../common/helpers/getAuthCodeExpTime"
 
 @Injectable()

@@ -2,8 +2,8 @@ export interface IUser {
   id: number
   name: string
   email: string
-  password?: string
-  avatar?: string
+  colorHex: string
+  password: string
   refreshToken?: string
 }
 

@@ -6,9 +6,6 @@ import {
   Post,
   Req,
   Res,
-  UploadedFile,
-  UseGuards,
-  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common"
@@ -17,36 +14,23 @@ import { AuthService } from "./auth.service"
 import { LoginUserDto } from "./dto/login-user.dto"
 import { TokenService } from "../token/token.service"
 import { Request, Response } from "express"
-import { ConfigService } from "@nestjs/config"
 import { GetCookieExpTime } from "../../common/helpers/getCookieExpTime"
-import { AccessTokenGuard } from "../../guards/access-token.guard"
-import { FileInterceptor } from "@nestjs/platform-express"
-import { FileUploadConfig } from "../../configurations/fileUpload.config"
 
 @Controller("auth")
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly tokenService: TokenService,
-
-    private readonly configService: ConfigService,
   ) {}
 
   @UsePipes(ValidationPipe)
   @Post("register")
-  @UseInterceptors(FileInterceptor("avatar", FileUploadConfig))
   async register(
     @Body() userInfo: Omit<CreateUserDto, "avatar">,
-    @UploadedFile()
-    avatarFile: Express.Multer.File,
     @Res() response: Response,
   ) {
-    const avatar = avatarFile
-      ? this.configService.get("server_origin") + "/" + avatarFile?.filename
-      : null
     const { accessToken, refreshToken } = await this.authService.registerUser({
       ...userInfo,
-      avatar,
     })
     response.cookie("refreshToken", refreshToken, {
       httpOnly: true,
@@ -107,11 +91,5 @@ export class AuthController {
       maxAge: GetCookieExpTime(),
     })
     response.json({ message: "you are logged out" })
-  }
-
-  @UseGuards(AccessTokenGuard)
-  @Get("test")
-  test() {
-    return true
   }
 }

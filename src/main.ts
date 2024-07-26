@@ -1,5 +1,8 @@
 import { NestFactory } from "@nestjs/core"
-import { AppModule } from "./app.module"
+import { AppModule } from "./modules/app.module"
+import { ConfigService } from "@nestjs/config"
+import * as cookieParser from "cookie-parser"
+import { AllExceptionsFilter } from "./exception-filters/exception.filter"
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -13,7 +16,7 @@ async function bootstrap() {
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
-  // app.use(s(path.join(__dirname , "../uploads")))
+
   await app.listen(+configService.get("port") || 5000)
 }
 
