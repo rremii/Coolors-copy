@@ -32,7 +32,7 @@ function sortIndexesByShift<T>(
   return newIndexes
 }
 
-export const useDragIndexes = (indexes: number[], setIndexes: (indexes: number[]) => void, axisCoord: "X" | "Y") => {
+export function useDragIndexes<T>(indexes: T[], setIndexes: (indexes: T[]) => void, axisCoord: "X" | "Y") {
   const indexShifts = useRef([])
   const dragIndex = useRef<number | null>(null)
   const firstAxisCoord = useRef(0)
@@ -133,7 +133,7 @@ export const useDragIndexes = (indexes: number[], setIndexes: (indexes: number[]
   const setContainerRef = (containerEl: HTMLElement | null) => {
     if (!containerEl) return
 
-    containerEl.draggable = true
+    containerEl.draggable = false
     containerEl.ondragover = onDrag
   }
   const setDragBtnRef = (index: number) => (btnEl: HTMLElement | null) => {

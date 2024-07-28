@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import { ColorsReducer } from "@entities/colors/model/colorsSlice.ts"
+import { AuthReducer } from "@entities/auth"
 
 const rootReducer = combineReducers({
   Colors: ColorsReducer,
+  Auth: AuthReducer,
   // [Api.reducerPath]: Api.reducer
 })
 

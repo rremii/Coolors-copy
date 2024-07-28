@@ -2,13 +2,16 @@ import React from "react"
 import { Route, Routes } from "react-router-dom"
 import AppLayout from "../app/layout/AppLayout.tsx"
 import { ColorsPage } from "./colors/Colors.page.tsx"
+import Layout from "../app/layout/Layout.tsx"
 
 export const Routing = () => {
   return (
     <>
       <AppLayout>
         <Routes>
-          <Route path="/*" element={<ColorsPage />} />
+          <Route path="/*" element={<Layout>
+            <ColorsPage />
+          </Layout>} />
         </Routes>
       </AppLayout>
     </>

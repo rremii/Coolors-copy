@@ -48,30 +48,30 @@ export const ColorPickerModal: FC<Props> = ({
       ref={modalRef}
       className="PickerModal"
       $isOpen={isOpen}
-      $x={coords.x + "px"}
-      $y={coords.y + "px"}
+      $left={coords.x + "px"}
+      $top={coords.y + "px"}
     >
       <ColorPicker color={rgbToHex(color)} onColorChange={changeColor} />
     </PickerModal>
   )
 }
 const PickerModal = styled(Modal)`
-  background-color: white;
-  border-radius: 10px;
-  z-index: 101;
-
-  @media screen and (max-width: 768px) {
-    opacity: 1;
-    width: 100vw;
-    top: calc(100% - 300px);
-    left: 50%;
-    transition: 0.3s transform;
-    transform: translateX(-50%)
-      ${({ $isOpen }) => ($isOpen ? "translateY(0)" : "translateY(100%)")};
-    border-radius: 10px 10px 0 0;
-    max-width: 80vw;
-  }
-  @media screen and (max-width: 400px) {
-    max-width: initial;
-  }
+    background-color: white;
+    border-radius: 10px;
+    z-index: 101;
+    max-width: 300px;
+    width: 90vw;
+    @media screen and (max-width: 768px) {
+        opacity: 1;
+        width: 100vw;
+        top: calc(100% - 300px);
+        left: 50%;
+        transition: 0.3s transform;
+        transform: translateX(-50%) ${({ $isOpen }) => ($isOpen ? "translateY(0)" : "translateY(100%)")};
+        border-radius: 10px 10px 0 0;
+        max-width: 80vw;
+    }
+    @media screen and (max-width: 400px) {
+        max-width: initial;
+    }
 `

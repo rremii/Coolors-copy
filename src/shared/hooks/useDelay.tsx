@@ -1,4 +1,4 @@
-// import { useEffect, useState } from "react"
+// import { useEffect, useState } from "react" //todo
 //
 // export function useDelay<ArgsT, ReturnT>(cb: (args: ArgsT) => ReturnT, delay: number = 200) {
 //

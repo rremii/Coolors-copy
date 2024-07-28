@@ -1,10 +1,15 @@
-import { ColorLineWithDeleting } from "@widgets/ColorsDragNDrop/ui/ColorLine.tsx"
-import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
-import { IColorCell, setColors, setHasMountAnimation } from "@entities/colors/model/colorsSlice.ts"
-import styled from "styled-components"
+import {
+  IColorCell,
+  setColors,
+  setHasMountAnimation,
+} from "@entities/colors/model/colorsSlice.ts"
 import { useSetColorsToUrl } from "@entities/colors/model/useSetColorsToUrl.tsx"
-import { useRef } from "react"
+import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
 import { useDragIndexes } from "@shared/hooks/useDragIndexes.tsx"
+import { ColorLineWithDeleting } from "@widgets/ColorsDragNDrop/ui/ColorLine.tsx"
+import { useRef } from "react"
+import styled from "styled-components"
+import { useScreenSize } from "@shared/hooks/useScreenSize.tsx"
 
 export const ColorsDragNDrop = () => {
   const dispatch = useAppDispatch()
@@ -19,9 +24,11 @@ export const ColorsDragNDrop = () => {
     dispatch(setColors(colors))
   }
 
-  const screenWidth = useRef<number>(document.body.clientWidth)
-  const axis = screenWidth.current <= 768 ? "Y" : "X" //todo
 
+  const isMobile = useScreenSize(768)
+
+
+  const axis = isMobile ? "Y" : "X"
   const { deltaAxisCoord, indexShifts, dragIndex, refs, isDraggin } =
     useDragIndexes(colors, setNewColors, axis)
 

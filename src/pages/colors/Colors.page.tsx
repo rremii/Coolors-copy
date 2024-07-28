@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import { KeyCodes } from "@shared/hooks/useKeyPress.tsx"
+import { useRandomizeColorsKeyPress } from "@widgets/ColorsDragNDrop/model/useRandomizeColorsKeyPress.tsx"
 import { useSetDefaultColorsFromUrl } from "@widgets/ColorsDragNDrop/model/useSetDefaultColorsFromUrl.tsx"
 import { ColorsDragNDrop } from "@widgets/ColorsDragNDrop/ui/ColorsDragNDrop.tsx"
-import { useRandomizeColorsKeyPress } from "@widgets/ColorsDragNDrop/model/useRandomizeColorsKeyPress.tsx"
-import { KeyCodes } from "@shared/hooks/useKeyPress.tsx"
+import styled from "styled-components"
 
 export const ColorsPage = () => {
   useSetDefaultColorsFromUrl()

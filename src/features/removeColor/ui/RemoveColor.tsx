@@ -32,6 +32,7 @@ export const RemoveColor: FC<Props> = ({
 
     removeColorFromUrl()
 
+
     dispatch(removeColor({ index: colorIndex }))
     dispatch(removeLockedColor({ id: colorId }))
   }

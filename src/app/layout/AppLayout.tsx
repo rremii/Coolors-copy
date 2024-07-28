@@ -3,6 +3,8 @@ import React, { FC, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { getRandomColor } from "@shared/helpers/getRandomColor.ts"
 import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
+import { AuthModal } from "@features/authModal/ui/AuthModal.tsx"
+import { createPortal } from "react-dom"
 
 interface Props {
   children: React.ReactNode
@@ -24,16 +26,19 @@ const AppLayout: FC<Props> = ({ children }) => {
     navigate(`/${hex1}-${hex2}`)
   }, [])
 
-  return <LayoutStyles>{children}</LayoutStyles>
+  return <LayoutStyles>
+    {children}
+    {createPortal(<AuthModal />, document.body)}
+  </LayoutStyles>
 }
 export default AppLayout
 const LayoutStyles = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  margin: 0 auto;
-  background-color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    background-color: white;
 `
