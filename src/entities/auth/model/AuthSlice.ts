@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { RegisterDto } from "../types"
 
 export type loggedInType = "first loading" | "success" | "rejected"
-
 
 export type AuthStages = "sign-in" | "sign-up-email" | "sign-up-code"
 
@@ -9,19 +9,17 @@ interface initialState {
   isLoggedIn: loggedInType
   isPending: boolean
   email: string
-  avatar: string
+  password: string
   name: string
   ///ui
   stage: AuthStages
   isOpen: boolean
 }
 
-
 const initialState = {
   email: "",
   isLoggedIn: "first loading",
   isPending: true,
-  avatar: "",
   name: "",
   ////ui
   stage: "sign-in",
@@ -48,9 +46,10 @@ export const AuthSlice = createSlice({
     setEmail(state, action: PayloadAction<string>) {
       state.email = action.payload
     },
-    setUserInfo(state, action: PayloadAction<{ name: string, avatar: string }>) {
+    setUserInfo(state, action: PayloadAction<Omit<RegisterDto, "colorHex">>) {
       state.name = action.payload.name
-      state.avatar = action.payload.avatar
+      state.email = action.payload.email
+      state.password = action.payload.password
     },
     //ui
     toggleAuth(state, action: PayloadAction<boolean>) {

@@ -7,7 +7,7 @@ import {
 } from "@features/authModal/ui/Content/ContentLayout.tsx"
 import { FC } from "react"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
-import { AuthStages, setAuthStage, toggleAuth } from "@entities/auth"
+import { AuthStages, setAuthStage, SignInForm, toggleAuth } from "@entities/auth"
 import Cross from "@icons/cross.svg?react"
 
 export const SignInContent: FC = () => {
@@ -28,7 +28,9 @@ export const SignInContent: FC = () => {
     </div>
     <Header>Sign in</Header>
     <SubHeader>Sign in with your email here.</SubHeader>
-    qwewqe
+
+    <SignInForm />
+
     <FooterCont>
       <LinkWithText>
         Don&apos;t have an account?

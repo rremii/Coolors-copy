@@ -1,84 +1,85 @@
-// import { AuthForm } from "@shared/ui/AuthForm.tsx"
-// import { FormField } from "@shared/ui/FormField.tsx"
-// import { AuthSubmitBtn } from "@shared/ui/AuthSubmitBtn.tsx"
-// import { useForm } from "react-hook-form"
-// import { yupResolver } from "@hookform/resolvers/yup"
-// import styled from "styled-components"
-// import { ErrorMessage } from "@shared/ui/ErrorMessage.tsx"
-// import { useLoginMutation } from "@entities/auth/api/AuthApi.ts"
-// import { useNavigate } from "react-router-dom"
-// import { useTimer } from "@shared/hooks/useTimer.tsx"
-// import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
-// import { setAuthSuccess } from "@entities/auth/model/AuthSlice.ts"
-// import { signInSchema } from "@entities/auth/constants/SignInValidateSchemas.ts"
-//
-// interface FormFields {
-//   email: string
-//   password: string
-// }
-//
-// export const SignInForm = () => {
-//   const navigate = useNavigate()
-//   const dispatch = useAppDispatch()
-//
-//   const [login] = useLoginMutation()
-//
-//   const {
-//     register,
-//     clearErrors,
-//     setError,
-//     formState: { errors },
-//     handleSubmit,
-//     reset,
-//   } = useForm<FormFields>({
-//     resolver: yupResolver(signInSchema),
-//   })
-//   const { Reset: ResetTimer } = useTimer({
-//     timeGap: 3,
-//     finalTime: 3,
-//     callback: clearErrors,
-//   })
-//
-//   const SetError = (message: string) => {
-//     reset()
-//     setError("root", { message })
-//     ResetTimer()
-//   }
-//   const OnSubmit = async (authData: FormFields) => {
-//     await login(authData)
-//       .unwrap()
-//       .then((res) => {
-//         localStorage.setItem("accessToken", res.accessToken)
-//         dispatch(setAuthSuccess())
-//         navigate("/categories")
-//       })
-//       .catch((error) => SetError(error.message))
-//   }
-//   return (
-//     <SignInFormLayout>
-//       <AuthForm OnSubmit={handleSubmit(OnSubmit)}>
-//         <FormField
-//           isError={Boolean(errors.root) || Boolean(errors.email)}
-//           label={t("signInMenu.email")}
-//           input={{
-//             type: "email",
-//             placeholder: "abc@gmail.com",
-//             registerData: { ...register("email") },
-//           }}
-//         />
-//         <FormField
-//           isError={Boolean(errors.root) || Boolean(errors.password)}
-//           label={t("signInMenu.password")}
-//           input={{
-//             type: "password",
-//             placeholder: "1234",
-//             registerData: { ...register("password") },
-//           }}
-//         />
-//         {errors.root && <ErrorMessage>{errors.root.message}</ErrorMessage>}
-//         <AuthSubmitBtn>{t("signInMenu.submit").toUpperCase()}</AuthSubmitBtn>
-//       </AuthForm>
-//     </SignInFormLayout>
-//   )
-// }
-// const SignInFormLayout = styled.div``
+import { AuthForm } from "@entities/auth/ui/components/AuthForm.tsx"
+import { AuthSubmitBtn } from "@entities/auth/ui/components/AuthSubmitBtn.tsx"
+import { FormField } from "@entities/auth/ui/components/FormField.tsx"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { useTimer } from "@shared/hooks/useTimer.tsx"
+import { Toast } from "@shared/ui/Toast.tsx"
+import { useEffect } from "react"
+import { createPortal } from "react-dom"
+import { useForm } from "react-hook-form"
+import styled from "styled-components"
+import { signInSchema } from "../constants/signInValidateSchemas"
+import { useLogin } from "../model/useLogin"
+
+interface FormFields {
+  email: string
+  password: string
+}
+
+const toastHideTime = 2 //sec
+export const SignInForm = () => {
+  const { login, error, isError, isLoading } = useLogin()
+
+  const {
+    clearErrors,
+    reset,
+    setError,
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormFields>({
+    resolver: yupResolver(signInSchema),
+  })
+
+  const { reset: resetTimer, time } = useTimer({
+    timeGap: 1,
+    finalTime: 4,
+    callback: clearErrors,
+  })
+
+  useEffect(() => {
+    if (!isError) return
+
+    reset()
+    setError("root", { message: error?.message })
+    resetTimer()
+  }, [isError])
+
+  const onSubmit = async (authData: FormFields) => {
+    if (isLoading) return
+    await login(authData)
+  }
+
+  return (
+    <FormContainer>
+      <AuthForm onSubmit={handleSubmit(onSubmit)}>
+        <FormField
+          isError={Boolean(errors.root) || Boolean(errors.email)}
+          input={{
+            type: "email",
+            placeholder: "Email / Username",
+            register: { ...register("email") },
+          }}
+        />
+        <FormField
+          aria-autocomplete="none"
+          isError={Boolean(errors.root) || Boolean(errors.password)}
+          input={{
+            type: "password",
+            placeholder: "Password",
+            register: { ...register("password") },
+          }}
+        />
+        <AuthSubmitBtn $isLoading={isLoading}>Sign in</AuthSubmitBtn>
+      </AuthForm>
+      {createPortal(
+        <Toast isActive={!!errors.root && time <= toastHideTime}>
+          {errors.root?.message}
+        </Toast>,
+        document.body
+      )}
+    </FormContainer>
+  )
+}
+
+const FormContainer = styled.div``

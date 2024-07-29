@@ -1,31 +1,17 @@
 {
   "compilerOptions": {
     "paths": {
-      "@shared/*": [
-        "src/shared/*"
-      ],
-      "@entities/*": [
-        "src/entities/*"
-      ],
-      "@features/*": [
-        "src/features/*"
-      ],
-      "@widgets/*": [
-        "src/widgets/*"
-      ],
-      "@icons/*": [
-        "public/icons/*"
-      ]
+      "@shared/*": ["./src/shared/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@features/*": ["./src/features/*"],
+      "@widgets/*": ["./src/widgets/*"],
+      "@icons/*": ["./public/icons/*"]
     },
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
@@ -43,8 +29,5 @@
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "src",
-    ".eslintrc.cjs"
-  ]
+  "include": ["src", ".eslintrc.cjs"]
 }

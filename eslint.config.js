@@ -1,12 +1,17 @@
-import globals from "globals"
 import pluginJs from "@eslint/js"
-import tseslint, { parser } from "typescript-eslint"
 import pluginReact from "eslint-plugin-react"
 import reactRefresh from "eslint-plugin-react-refresh"
+import globals from "globals"
+import tseslint from "typescript-eslint"
 
 export default [
   {
-    ignores: [".config/*", "*.config*", "**/shared/modules/HEXPicker"],
+    ignores: [
+      ".config/*",
+      "*.config*",
+      "**/shared/modules/HEXPicker",
+      "*.d.ts",
+    ],
   },
   {
     files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],

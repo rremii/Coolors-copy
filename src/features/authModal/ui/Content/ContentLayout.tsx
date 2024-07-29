@@ -30,6 +30,7 @@ export const Header = styled.h2`
 
 export const SubHeader = styled.h3`
     text-align: center;
+    line-height: 1.3;
     font-size: 16px;
     color: rgb(125, 124, 131);
     padding: 0 24px;

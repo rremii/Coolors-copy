@@ -16,8 +16,10 @@ export interface ErrorResponse extends DefaultResponse {
 }
 
 export type RegisterDto = {
+  name: string
   email: string
   password: string
+  colorHex: string
 }
 
 export type LoginDto = {

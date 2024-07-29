@@ -1,10 +1,15 @@
+import {
+  AuthResponse,
+  DefaultResponse,
+  LoginDto,
+  RegisterDto,
+} from "@entities/auth/types.ts"
 import { Api } from "@shared/api/config/Api.ts"
-import { AuthResponse, DefaultResponse, LoginDto } from "@entities/auth/types.ts"
 
 export const AuthApi = Api.injectEndpoints({
   endpoints: (build) => ({
-    register: build.mutation<AuthResponse, FormData>({
-      query: (registerData) => ({
+    register: build.mutation<AuthResponse, RegisterDto>({
+      query: (registerData: RegisterDto) => ({
         url: "auth/register",
         method: "POST",
         data: registerData,
@@ -17,7 +22,6 @@ export const AuthApi = Api.injectEndpoints({
         data: loginData,
       }),
     }),
-
     confirmEmail: build.mutation<DefaultResponse, string>({
       query: (email) => ({
         url: "confirm-code/send-code",

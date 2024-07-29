@@ -1,7 +1,6 @@
 import {
   CrossCont,
   FooterCont,
-  Header,
   LinkWithText,
   SubHeader,
 } from "@features/authModal/ui/Content/ContentLayout.tsx"
@@ -9,6 +8,8 @@ import { FC } from "react"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
 import { AuthStages, setAuthStage, toggleAuth } from "@entities/auth"
 import Cross from "@icons/cross.svg?react"
+import { SignUpCodeForm } from "@entities/auth/ui/SignUpCodeForm.tsx"
+import styled from "styled-components"
 
 
 export const SignUpCodeContent: FC = () => {
@@ -25,15 +26,18 @@ export const SignUpCodeContent: FC = () => {
   }
 
   return <>
-    <div>
+    <Header>
       <CrossCont onClick={closeModal}>
         <Cross />
       </CrossCont>
-    </div>
-    <Header>Confirm your email</Header>
-    <SubHeader>Enter the color code received via email, or click on the link, to <strong>confirm your
-      account</strong></SubHeader>
-    qwewqe
+      <h2>Confirm your email</h2>
+    </Header>
+    <SubHeader style={{ textAlign: "justify" }}>Enter the color code received via email, or click on the link,
+      to <strong>confirm your
+        account</strong></SubHeader>
+
+    <SignUpCodeForm />
+
     <FooterCont>
       <LinkWithText>
         Email not received?
@@ -45,3 +49,30 @@ export const SignUpCodeContent: FC = () => {
     </FooterCont>
   </>
 }
+const Header = styled.header`
+    border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+
+    margin-bottom: 24px;
+    position: relative;
+
+    & div:first-child {
+        padding: 0;
+        margin: 0;
+        width: 13px;
+        height: 13px;
+    }
+
+    h2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        font-size: 16px;
+        font-weight: 500;
+    }
+`

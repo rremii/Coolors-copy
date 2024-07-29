@@ -1,87 +1,114 @@
-import { AuthForm } from "@shared/ui/AuthForm.tsx"
-import { FormField } from "@shared/ui/FormField.tsx"
+import { AuthForm } from "@entities/auth/ui/components/AuthForm.tsx"
+import { AuthSubmitBtn } from "@entities/auth/ui/components/AuthSubmitBtn.tsx"
+import { FormField } from "@entities/auth/ui/components/FormField.tsx"
+import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
+import styled from "styled-components"
+import { useConfirmEmail } from "@entities/auth/model/useConfirmEmail.tsx"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import styled from "styled-components"
-import { useNavigate } from "react-router-dom"
-import React, { useEffect } from "react"
-import { ErrorMessage } from "@shared/ui/ErrorMessage.tsx"
-import { useVerifyCodeMutation } from "@entities/auth/api/AuthApi.ts"
+import { signUpCodeSchema, signUpEmailSchema } from "@entities/auth/constants/signUpValidateSchemas.ts"
 import { useTimer } from "@shared/hooks/useTimer.tsx"
-import { codeFormSchema } from "@entities/auth/constants/SignUpValidateSchemas.ts"
-import { useTranslation } from "react-i18next"
+import { useEffect } from "react"
+import { setAuthStage, setUserInfo, toggleAuth } from "@entities/auth"
+import { useVerifyCode } from "@entities/auth/model/useVerifyEmail.tsx"
+import { createPortal } from "react-dom"
+import { Toast } from "@shared/ui/Toast.tsx"
+import { useRegister } from "@entities/auth/model/useRegister.tsx"
+
 
 interface FormFields {
   code: string
 }
 
+const toastHideTime = 2 //sec
 export const SignUpCodeForm = () => {
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const userName = useTypedSelector(state => state.Auth.name)
+  const userEmail = useTypedSelector(state => state.Auth.email)
+  const userPassword = useTypedSelector(state => state.Auth.password)
+
+  const { isError, verifyCode, error } =
+    useVerifyCode()
+  const { register: registerUser, isLoading, isSuccess } = useRegister()
 
   const {
-    register,
-    formState: { errors },
     clearErrors,
+    reset,
     setError,
     handleSubmit,
-    reset,
-    setFocus,
+    register, watch,
+    formState: { errors },
   } = useForm<FormFields>({
-    resolver: yupResolver(codeFormSchema),
+    resolver: yupResolver(signUpCodeSchema),
   })
 
-  const { t } = useTranslation()
-
-  const [verifyCode] = useVerifyCodeMutation()
-  const { Reset: ResetTimer } = useTimer({
-    finalTime: 3,
-    timeGap: 3,
+  const { reset: resetTimer, time } = useTimer({
+    timeGap: 1,
+    finalTime: 4,
     callback: clearErrors,
   })
 
   useEffect(() => {
-    setFocus("code")
-  }, [setFocus])
+    if (!isError) return
 
-  const OnSubmit = async ({ code }: FormFields) => {
-    if (code.length !== 6) return
-    await verifyCode(code)
-      .unwrap()
-      .then(() => {
-        navigate("/sign-up/info")
+    reset()
+    setError("root", { message: error?.message })
+    resetTimer()
+  }, [isError])
+
+  useEffect(() => {
+    if (!isSuccess) return
+    dispatch(toggleAuth(false))
+  }, [isLoading])
+
+  const onSubmit = ({ code }: FormFields) => {
+    if (isLoading) return
+
+    verifyCode(code).then(async () => {
+      await registerUser({
+        name: userName, email: userEmail, password: userPassword, colorHex: "#" + code,
       })
-      .catch((error) => {
-        reset()
-        setError("code", { message: error.message })
-        ResetTimer()
-      })
+    })
   }
 
-  const OnValueChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const code = e.currentTarget.value
-    if (code.length !== 6) return
-    await OnSubmit({ code })
-  }
 
+  const curCode = watch("code")
   return (
-    <SignUpFormLayout>
-      <AuthForm OnSubmit={handleSubmit(OnSubmit)}>
+    <FormContainer>
+      <AuthForm onSubmit={handleSubmit(onSubmit)}>
         <FormField
-          isError={Boolean(errors.code)}
-          label={t("signUpCodeMenu.code")}
+          label="Color code"
+          isError={Boolean(errors.root) || Boolean(errors.code)}
           input={{
+            beforeInput: <ColorPreview $color={curCode ? "#" + curCode : "#fff"} />,
             type: "text",
-            placeholder: "",
-            registerData: {
-              ...register("code", {
-                onChange: OnValueChange,
-              }),
-            },
+            placeholder: "Enter the code",
+            register: { ...register("code") },
           }}
         />
-        {errors.code && <ErrorMessage>{errors.code.message}</ErrorMessage>}
+        <AuthSubmitBtn $isLoading={isLoading}>OK</AuthSubmitBtn>
       </AuthForm>
-    </SignUpFormLayout>
+      {createPortal(
+        <Toast isActive={!!errors.root && time <= toastHideTime}>
+          {errors.root?.message}
+        </Toast>,
+        document.body,
+      )}
+    </FormContainer>
   )
 }
-const SignUpFormLayout = styled.div``
+
+const ColorPreview = styled.div<{
+  $color: string
+}>`
+    border-radius: 5px;
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: ${({ $color }) => $color};
+`
+const FormContainer = styled.div``

@@ -1,21 +1,19 @@
-import { AuthStages, setAuthStage, toggleAuth } from "@entities/auth"
-import { FC } from "react"
+import { AuthStages } from "@entities/auth"
 import { SignInContent } from "@features/authModal/ui/Content/SignInContent.tsx"
-import { SignUpEmailContent } from "@features/authModal/ui/Content/SignUpEmailContent.tsx"
 import { SignUpCodeContent } from "@features/authModal/ui/Content/SignUpCodeContent.tsx"
+import { SignUpEmailContent } from "@features/authModal/ui/Content/SignUpEmailContent.tsx"
+import { FC } from "react"
 
-
-//TODO ask if it worth using fabric
+//TODO ask if it worth using fabric | ui logic in redux
 export const authModalContentFabric = (authStage: AuthStages): FC => {
-
   switch (authStage) {
-    case "sign-up-code":
-      return SignUpCodeContent
     case "sign-in":
       return SignInContent
     case "sign-up-email":
       return SignUpEmailContent
-    default :
+    case "sign-up-code":
+      return SignUpCodeContent
+    default:
       return SignInContent
   }
 }

@@ -9,6 +9,7 @@ import Cross from "@icons/cross.svg?react"
 import { FC } from "react"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
 import { AuthStages, setAuthStage, toggleAuth } from "@entities/auth"
+import { SignUpEmailForm } from "@entities/auth/ui/SignUpEmailForm.tsx"
 
 
 export const SignUpEmailContent: FC = () => {
@@ -30,7 +31,9 @@ export const SignUpEmailContent: FC = () => {
     </div>
     <Header>Sign up</Header>
     <SubHeader>Create a free account with your email.</SubHeader>
-    qwewqe
+
+    <SignUpEmailForm />
+
     <FooterCont>
       <LinkWithText>Already have an account?
         <h4

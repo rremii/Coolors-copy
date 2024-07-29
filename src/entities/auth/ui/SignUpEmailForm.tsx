@@ -1,84 +1,107 @@
-// import { AuthForm } from "@shared/ui/AuthForm.tsx"
-// import { FormField } from "@shared/ui/FormField.tsx"
-// import { AuthSubmitBtn } from "@shared/ui/AuthSubmitBtn.tsx"
-// import { useForm } from "react-hook-form"
-// import { yupResolver } from "@hookform/resolvers/yup"
-// import styled from "styled-components"
-// import { useNavigate } from "react-router-dom"
-// import React, { useEffect } from "react"
-// import { ErrorMessage } from "@shared/ui/ErrorMessage.tsx"
-// import { useConfirmEmailMutation } from "@entities/auth/api/AuthApi.ts"
-// import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
-// import { setEmail } from "@entities/auth/model/AuthSlice.ts"
-// import { useTimer } from "@shared/hooks/useTimer.tsx"
-// import { emailFormSchema } from "@entities/auth/constants/SignUpValidateSchemas.ts"
-// import { useTranslation } from "react-i18next"
-//
-// interface FormFields {
-//   email: string
-// }
-//
-// export const SignUpEmailForm = () => {
-//   const dispatch = useAppDispatch()
-//   const navigate = useNavigate()
-//
-//   const {
-//     register,
-//     setFocus,
-//     formState: { errors },
-//     clearErrors,
-//     setError,
-//     handleSubmit,
-//   } = useForm<FormFields>({
-//     resolver: yupResolver(emailFormSchema),
-//     values: { email: "noruto2021@gmail.com" },
-//   })
-//
-//   const { t } = useTranslation()
-//
-//   useEffect(() => {
-//     setFocus("email")
-//   }, [setFocus])
-//
-//   const { Reset: ResetTimer } = useTimer({
-//     timeGap: 3,
-//     finalTime: 3,
-//     callback: clearErrors,
-//   })
-//
-//   const [confirmEmail, { isLoading }] = useConfirmEmailMutation()
-//
-//   const OnSubmit = async ({ email }: FormFields) => {
-//     if (isLoading) return
-//     await confirmEmail(email)
-//       .unwrap()
-//       .then(() => {
-//         dispatch(setEmail(email))
-//         navigate("/sign-up/code")
-//       })
-//       .catch((error) => {
-//         setError("email", { message: error?.message })
-//         ResetTimer()
-//       })
-//   }
-//   return (
-//     <SignUpFormLayout>
-//       <AuthForm OnSubmit={handleSubmit(OnSubmit)}>
-//         <FormField
-//           label={t("signUpEmailMenu.email")}
-//           isError={Boolean(errors.email)}
-//           input={{
-//             type: "email",
-//             placeholder: "abc@gmail.com",
-//             registerData: { ...register("email") },
-//           }}
-//         />
-//         {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-//         <AuthSubmitBtn>
-//           {t("signUpEmailMenu.submit").toUpperCase()}
-//         </AuthSubmitBtn>
-//       </AuthForm>
-//     </SignUpFormLayout>
-//   )
-// }
-// const SignUpFormLayout = styled.div``
+import { AuthForm } from "@entities/auth/ui/components/AuthForm.tsx"
+import { AuthSubmitBtn } from "@entities/auth/ui/components/AuthSubmitBtn.tsx"
+import { FormField } from "@entities/auth/ui/components/FormField.tsx"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
+import { useTimer } from "@shared/hooks/useTimer"
+import { Toast } from "@shared/ui/Toast"
+import { useEffect } from "react"
+import { createPortal } from "react-dom"
+import { useForm } from "react-hook-form"
+import styled from "styled-components"
+import { signUpEmailSchema } from "../constants/signUpValidateSchemas"
+import { setAuthStage, setUserInfo, toggleAuth } from "../model/AuthSlice"
+import { useConfirmEmail } from "../model/useConfirmEmail"
+
+interface FormFields {
+  email: string
+  password: string
+  name: string
+}
+
+const toastHideTime = 2
+export const SignUpEmailForm = () => {
+  const dispatch = useAppDispatch()
+
+  const { isError, isLoading, isSuccess, confirmEmail, error } =
+    useConfirmEmail()
+
+  const {
+    clearErrors,
+    reset,
+    setError,
+    handleSubmit,
+    register, getValues,
+    formState: { errors },
+  } = useForm<FormFields>({
+    resolver: yupResolver(signUpEmailSchema),
+  })
+
+  const { reset: resetTimer, time } = useTimer({
+    timeGap: 1,
+    finalTime: 4,
+    callback: clearErrors,
+  })
+
+  useEffect(() => {
+    if (!isError) return
+
+    reset()
+    setError("root", { message: error?.message })
+    resetTimer()
+  }, [isError])
+
+
+  useEffect(() => {
+    if (!isSuccess) return
+    dispatch(setUserInfo(getValues()))
+    dispatch(setAuthStage("sign-up-code"))
+  }, [isLoading])
+
+  const onSubmit = async (authData: FormFields) => {
+    if (isLoading) return
+    await confirmEmail(authData.email)
+  }
+
+  return (
+    <FormContainer>
+      <AuthForm onSubmit={handleSubmit(onSubmit)}>
+        <FormField
+          isError={Boolean(errors.root) || Boolean(errors.email)}
+          input={{
+            type: "text",
+            placeholder: "Full Name",
+            register: { ...register("name") },
+          }}
+        />
+        <FormField
+          isError={Boolean(errors.root) || Boolean(errors.email)}
+          input={{
+            type: "email",
+            placeholder: "Email / Username",
+            register: { ...register("email") },
+          }}
+        />
+        <FormField
+          aria-autocomplete="none"
+          isError={Boolean(errors.root) || Boolean(errors.password)}
+          input={{
+            type: "password",
+            placeholder: "Password",
+            register: { ...register("password") },
+          }}
+        />
+        <AuthSubmitBtn $isLoading={isLoading}>
+          Create your first account
+        </AuthSubmitBtn>
+      </AuthForm>
+      {createPortal(
+        <Toast isActive={!!errors.root && time <= toastHideTime}>
+          {errors.root?.message}
+        </Toast>,
+        document.body,
+      )}
+    </FormContainer>
+  )
+}
+const FormContainer = styled.div``
