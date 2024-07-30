@@ -1,10 +1,12 @@
-import { Injectable } from "@nestjs/common"
+import { BadRequestException, Injectable } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Repository } from "typeorm"
 import { User } from "./entities/user.entity"
 import { CreateUserDto } from "./dto/create-user.dto"
 import { HashData } from "../../common/helpers/hashData"
 import { TokenService } from "../token/token.service"
+import { IUserInfo } from "./users.interface"
+import { ApiError } from "../../common/constants/errors"
 
 @Injectable()
 export class UsersService {
@@ -66,20 +68,20 @@ export class UsersService {
   //   return { message: "user avatar was updated" }
   // }
 
-  // async getUser(authToken: string): Promise<IUserInfo> {
-  //   const decodedUser = await this.tokenService.decodeToken(authToken)
-  //
-  //   const user = this.usersRepository.findOne({
-  //     where: { id: decodedUser.id },
-  //     select: ["id", "email", "avatar", "name"],
-  //   })
-  //
-  //   if (!user) throw new BadRequestException(ApiError.USER_NOT_FOUND)
-  //
-  //   return user
-  // }
+  async getById(id) {
+    return this.usersRepository.findOneBy({ id })
+  }
 
-  // async getUserById(id: number) {
-  //   return await this.usersRepository.findOneBy({ id })
-  // }
+  async getUser(authToken: string): Promise<IUserInfo> {
+    const decodedUser = await this.tokenService.decodeToken(authToken)
+
+    const user = this.usersRepository.findOne({
+      where: { id: decodedUser.id },
+      select: ["id", "email", "colorHex", "name"],
+    })
+
+    if (!user) throw new BadRequestException(ApiError.USER_NOT_FOUND)
+
+    return user
+  }
 }

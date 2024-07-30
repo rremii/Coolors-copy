@@ -1,12 +1,7 @@
 import { ConfigService } from "@nestjs/config"
 import { User } from "../modules/users/entities/user.entity"
 import { Code } from "../modules/Code/entities/code.entity"
-// import { User } from "../modules/users/entities/user.entity"
-// import { Code } from "../modules/Code/entities/code.entity"
-// import { Account } from "src/modules/account/entities/account.entity"
-// import { Category } from "../modules/category/entities/category.entity"
-// import { Transaction } from "../modules/transaction/entities/transaction.entity"
-// import { AccountHistoryPoint } from "../modules/accountHistory/entities/accountHistoryPoint.entity"
+import { Palette } from "../modules/palette/entities/palette.entity"
 
 export const getOrmConfig = async (config: ConfigService): Promise<any> => {
   return {
@@ -19,7 +14,7 @@ export const getOrmConfig = async (config: ConfigService): Promise<any> => {
     database: config.get("db_name"),
     synchronize: true,
 
-    entities: [User, Code],
+    entities: [User, Code, Palette],
 
     // ssl: true,
     // extra: {

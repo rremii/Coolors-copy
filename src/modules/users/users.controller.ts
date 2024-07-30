@@ -1,47 +1,25 @@
-import { Controller } from "@nestjs/common"
+import {
+  Controller,
+  Get,
+  Req,
+  UnauthorizedException,
+  UseGuards,
+} from "@nestjs/common"
 import { UsersService } from "./users.service"
-
-// import { AccessTokenGuard } from "../../guards/access-token.guard"
+import { AccessTokenGuard } from "../../guards/access-token.guard"
 
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @UsePipes(new ValidationPipe())
-  // @Post()
-  // createUser(@Body() user: CreateUserDto): Promise<User> {
-  //   return this.usersService.createUser(user)
-  // }
-  //
-  // @Put("name")
-  // @UseGuards(AccessTokenGuard)
-  // @UsePipes(new ValidationPipe())
-  // changeName(@Body() changeNameDto: ChangeNameDto): Promise<DefaultResponse> {
-  //   return this.usersService.changeName(changeNameDto)
-  // }
-  //
-  // @Put("password")
-  // @UseGuards(AccessTokenGuard)
-  // @UsePipes(new ValidationPipe())
-  // changePassword(
-  //   @Body() changePasswordDto: ChangePasswordDto,
-  // ): Promise<DefaultResponse> {
-  //   return this.usersService.changePassword(changePasswordDto)
-  // }
+  @Get("/me")
+  @UseGuards(AccessTokenGuard)
+  getUser(@Req() request: Request) {
+    if (!("authorization" in request.headers)) throw new UnauthorizedException()
+    const authHeader = request.headers.authorization as string
 
-  // @Post("avatar")
-  // @UseGuards(AccessTokenGuard)
-  // @UsePipes(new ValidationPipe())
-  // changeAvatar(
-  //   @Body() changeAvatarDto: ChangeAvatarDto,
-  // ): Promise<DefaultResponse> {
-  //   return this.usersService.changeAvatar(changeAvatarDto)
-  // }
+    const authToken = authHeader.split(" ")[1]
 
-  // @Get("/me")
-  // @UseGuards(AccessTokenGuard)
-  // getUser(@Req() request: Request) {
-  //   const authToken = request.headers.authorization.split(" ").at(1)
-  //   return this.usersService.getUser(authToken)
-  // }
+    return this.usersService.getUser(authToken)
+  }
 }

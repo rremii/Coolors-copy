@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from "@nestjs/common"
 import { ConfirmEmailDto } from "./dto/confirm-email.dto"
 import { DefaultResponse } from "../../common/types/types"
 import { ApiError } from "../../common/constants/errors"
-import { v4 as uuid } from "uuid"
 import { VerifyCodeDto } from "./dto/verify-code.dto"
 import { MailerService } from "@nestjs-modules/mailer"
 import { UsersService } from "../users/users.service"
@@ -10,6 +9,7 @@ import { InjectRepository } from "@nestjs/typeorm"
 import { Code } from "./entities/code.entity"
 import { LessThan, Repository } from "typeorm"
 import { GetAuthCodeExpTime } from "../../common/helpers/getAuthCodeExpTime"
+import { rgbToHex } from "../../common/helpers/rgbToHex"
 
 @Injectable()
 export class CodeService {
@@ -20,22 +20,30 @@ export class CodeService {
     private readonly usersService: UsersService,
   ) {}
 
+  private getRandomLimitedHexColor() {
+    const r = Math.floor(Math.random() * 120)
+    const g = Math.floor(Math.random() * 120)
+    const b = Math.floor(Math.random() * 120)
+
+    return rgbToHex([r, g, b])
+  }
+
   async sendConfirmCode({ email }: ConfirmEmailDto): Promise<DefaultResponse> {
     const existUser = await this.usersService.findUserByEmail(email)
     if (existUser) throw new BadRequestException(ApiError.USER_EXIST)
 
-    const code = uuid().slice(0, 6)
+    const color = this.getRandomLimitedHexColor()
 
     await this.mailerService.sendMail({
       to: email,
       from: "remi mail sender",
       subject: "confirm email",
       text: "please confirm your email",
-      html: `<div>${code}</div>`,
+      html: `<div>${color.slice(1)}</div>`,
     })
 
     const newCode = this.codeRepository.create({
-      code,
+      code: color.slice(1),
       expTime: new Date(Date.now() + GetAuthCodeExpTime()),
     })
 
@@ -45,18 +53,18 @@ export class CodeService {
   }
 
   async verifyCode({ code }: VerifyCodeDto) {
-    const codeData = await this.codeRepository.findOneBy({ code })
+    await this.deleteExpired()
 
+    const codeData = await this.codeRepository.findOneBy({ code })
     if (!codeData) throw new BadRequestException(ApiError.INVALID_CODE)
 
-    const currentTime = Date.now()
-    const codeExpTime = codeData.expTime.getTime()
+    // const currentTime = Date.now()
+    // const codeExpTime = codeData.expTime.getTime()
 
-    if (currentTime > codeExpTime)
-      throw new BadRequestException(ApiError.INVALID_CODE)
+    // if (currentTime > codeExpTime)
+    //   throw new BadRequestException(ApiError.INVALID_CODE)
 
     await codeData.remove()
-    await this.deleteExpired()
 
     return { message: "code is correct" }
   }

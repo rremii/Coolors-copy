@@ -15,4 +15,5 @@ export const ApiError = {
   WRONG_DATA: "Email or password is not correct",
   INVALID_CODE: "The code is invalid or expired",
   FILE_TYPE: "Avatar image type is invalid",
+  PALETTE_NOT_CREATED: "Couldn't create palette",
 }

@@ -1,5 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm"
 import { IUser } from "../users.interface"
+import { Palette } from "../../palette/entities/palette.entity"
 
 @Entity()
 export class User extends BaseEntity implements IUser {
@@ -21,18 +28,6 @@ export class User extends BaseEntity implements IUser {
   @Column({ nullable: true })
   refreshToken: string
 
-  // @OneToMany(() => Account, (account) => account.user)
-  // accounts: Account[]
-
-  // @OneToMany(
-  //   () => AccountHistoryPoint,
-  //   (accountHistoryPoint) => accountHistoryPoint.user,
-  // )
-  // accountHistoryPoints: AccountHistoryPoint[]
-
-  // @OneToMany(() => Category, (category) => category.user)
-  // categories: Category[]
-
-  // @OneToMany(() => Category, (category) => category.user)
-  // transaction: Transaction[]
+  @OneToMany(() => Palette, (palette) => palette.user)
+  palettes: Palette[]
 }

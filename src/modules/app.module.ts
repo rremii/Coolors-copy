@@ -7,9 +7,14 @@ import { MailerModule } from "@nestjs-modules/mailer"
 import { getMailConfig } from "../configurations/mail.config"
 import { UsersModule } from "./users/users.module"
 import { CodeModule } from "./Code/code.module"
+import { AuthModule } from "./auth/auth.module"
+import { PaletteModule } from "./palette/palette.module"
 
 @Module({
   imports: [
+    PaletteModule,
+    CodeModule,
+    AuthModule,
     UsersModule,
     CodeModule,
     ConfigModule.forRoot({
