@@ -17,44 +17,44 @@ const axiosBaseQuery =
     unknown,
     ApiError
   > =>
-  async ({
-    url,
-    method,
-    data,
-    params,
-    withCredentials,
-    withInterceptors = true,
-    baseUrl = API_URL,
-  }) => {
-    try {
-      const requestConfig: AxiosRequestConfig = {
-        url: baseUrl + url,
-        method,
-        data,
-        params,
-        withCredentials,
+    async ({
+             url,
+             method,
+             data,
+             params,
+             withCredentials,
+             withInterceptors = true,
+             baseUrl = API_URL,
+           }) => {
+      try {
+        const requestConfig: AxiosRequestConfig = {
+          url: baseUrl + url,
+          method,
+          data,
+          params,
+          withCredentials,
+        }
+        let result: AxiosResponse
+
+        if (withInterceptors) result = await $api(requestConfig)
+        else result = await $apiDefault(requestConfig)
+
+        return { data: result.data }
+      } catch (error: unknown) {
+        if (error instanceof AxiosError) {
+          if (error.response && +error.response.status >= 500)
+            throw "Server Error"
+
+          throw error.response?.data
+        }
+
+        throw error
       }
-      let result: AxiosResponse
-
-      if (withInterceptors) result = await $api(requestConfig)
-      else result = await $apiDefault(requestConfig)
-
-      return { data: result.data }
-    } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        if (error.response && +error.response.status >= 500)
-          throw "Server Error"
-
-        throw error.response?.data
-      }
-
-      throw error
     }
-  }
 
 export const Api = createApi({
   reducerPath: "ApiRtk",
   baseQuery: axiosBaseQuery(),
   endpoints: () => ({}),
-  tagTypes: [],
+  tagTypes: ["palette"],
 })

@@ -5,11 +5,13 @@ import {
   SubHeader,
 } from "@features/authModal/ui/Content/ContentLayout.tsx"
 import { FC } from "react"
-import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
+import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
 import { AuthStages, setAuthStage, toggleAuth } from "@entities/auth"
 import Cross from "@icons/cross.svg?react"
 import { SignUpCodeForm } from "@entities/auth/ui/SignUpCodeForm.tsx"
 import styled from "styled-components"
+import { useTimer } from "@shared/hooks/useTimer.tsx"
+import { useConfirmEmail } from "@entities/auth/model/useConfirmEmail.tsx"
 
 
 export const SignUpCodeContent: FC = () => {
@@ -17,8 +19,21 @@ export const SignUpCodeContent: FC = () => {
 
   const dispatch = useAppDispatch()
 
-  const goToAuthStage = (stage: AuthStages) => {
-    dispatch(setAuthStage(stage))
+  const email = useTypedSelector(state => state.Auth.email)
+
+  const { confirmEmail } = useConfirmEmail()
+
+  const { reset: resetTimer, time, timerState } = useTimer({
+    finalTime: 60,
+    timeGap: 1,
+    isUnversed: true,
+  })
+
+  const sendTheCodeAgain = async () => {
+    if (timerState === "running") return
+    resetTimer()
+
+    await confirmEmail(email)
   }
 
   const closeModal = () => {
@@ -41,10 +56,9 @@ export const SignUpCodeContent: FC = () => {
     <FooterCont>
       <LinkWithText>
         Email not received?
-        <h4
-          onClick={() => goToAuthStage("sign-up-email")}
-          className="high-lighted"
-        >Send Again</h4>
+        <h4 onClick={sendTheCodeAgain} className="high-lighted">
+          {timerState === "running" ? " Send again in " + time : "Send again"}
+        </h4>
       </LinkWithText>
     </FooterCont>
   </>

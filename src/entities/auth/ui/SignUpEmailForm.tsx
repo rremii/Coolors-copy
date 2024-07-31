@@ -1,6 +1,6 @@
-import { AuthForm } from "@entities/auth/ui/components/AuthForm.tsx"
+import { AuthForm } from "@entities/auth/ui/AuthForm.tsx"
 import { AuthSubmitBtn } from "@entities/auth/ui/components/AuthSubmitBtn.tsx"
-import { FormField } from "@entities/auth/ui/components/FormField.tsx"
+import { FormField } from "@shared/ui/FormField.tsx"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
 import { useTimer } from "@shared/hooks/useTimer"
@@ -12,6 +12,7 @@ import styled from "styled-components"
 import { signUpEmailSchema } from "../constants/signUpValidateSchemas"
 import { setAuthStage, setUserInfo, toggleAuth } from "../model/AuthSlice"
 import { useConfirmEmail } from "../model/useConfirmEmail"
+import { Button } from "@shared/ui/Button.tsx"
 
 interface FormFields {
   email: string
@@ -91,9 +92,11 @@ export const SignUpEmailForm = () => {
             register: { ...register("password") },
           }}
         />
-        <AuthSubmitBtn $isLoading={isLoading}>
+        <Button filled isLoading={isLoading}>
           Create your first account
-        </AuthSubmitBtn>
+        </Button>
+        {/*<AuthSubmitBtn $isLoading={isLoading}>*/}
+        {/*</AuthSubmitBtn>*/}
       </AuthForm>
       {createPortal(
         <Toast isActive={!!errors.root && time <= toastHideTime}>

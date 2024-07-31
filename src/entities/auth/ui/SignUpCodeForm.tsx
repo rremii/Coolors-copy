@@ -1,6 +1,6 @@
-import { AuthForm } from "@entities/auth/ui/components/AuthForm.tsx"
+import { AuthForm } from "@entities/auth/ui/AuthForm.tsx"
 import { AuthSubmitBtn } from "@entities/auth/ui/components/AuthSubmitBtn.tsx"
-import { FormField } from "@entities/auth/ui/components/FormField.tsx"
+import { FormField } from "@shared/ui/FormField.tsx"
 import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
 import styled from "styled-components"
 import { useConfirmEmail } from "@entities/auth/model/useConfirmEmail.tsx"
@@ -14,6 +14,7 @@ import { useVerifyCode } from "@entities/auth/model/useVerifyEmail.tsx"
 import { createPortal } from "react-dom"
 import { Toast } from "@shared/ui/Toast.tsx"
 import { useRegister } from "@entities/auth/model/useRegister.tsx"
+import { Button } from "@shared/ui/Button.tsx"
 
 
 interface FormFields {
@@ -87,7 +88,8 @@ export const SignUpCodeForm = () => {
             register: { ...register("code") },
           }}
         />
-        <AuthSubmitBtn $isLoading={isLoading}>OK</AuthSubmitBtn>
+        <Button filled isLoading={isLoading}>OK</Button>
+        {/*<AuthSubmitBtn $isLoading={isLoading}>OK</AuthSubmitBtn>*/}
       </AuthForm>
       {createPortal(
         <Toast isActive={!!errors.root && time <= toastHideTime}>

@@ -8,7 +8,7 @@ import { replaceColorInUrlStr } from "@shared/helpers/replaceColorInUrlStr.ts"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
 import { replaceColor } from "@entities/colors/model/colorsSlice.ts"
-import { hexToRgb } from "@shared/helpers/HexToRgb.ts"
+import { hexToRgb } from "@shared/helpers/hexToRgb.ts"
 import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
 
 interface Props {

@@ -4,8 +4,8 @@ export const useConfirmEmail = () => {
   const [confirmEmail, { isLoading, isError, isSuccess, error }] =
     useConfirmEmailMutation()
 
-  const handleConfirm = async (code: string) => {
-    await confirmEmail(code)
+  const handleConfirm = async (email: string) => {
+    await confirmEmail(email)
   }
 
   return {

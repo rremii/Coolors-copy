@@ -1,0 +1,128 @@
+import styled from "styled-components"
+import { Modal } from "@shared/ui/Modal.tsx"
+import { FC, FormEvent, useEffect, useState } from "react"
+import { Header } from "@features/savePaletteModal/ui/Header.tsx"
+import { Options } from "@features/savePaletteModal/ui/Options.tsx"
+import { InfoForm } from "@features/savePaletteModal/ui/InfoForm.tsx"
+import { Button } from "@shared/ui/Button.tsx"
+import { useTimer } from "@shared/hooks/useTimer.tsx"
+import { useLogin } from "@entities/auth/model/useLogin.tsx"
+import { createPortal } from "react-dom"
+import { Toast } from "@shared/ui/Toast.tsx"
+import { checkIfValid } from "@features/savePaletteModal/helpers/checkIfValid.ts"
+import { useCreatePaletteMutation } from "@entities/palette"
+import { useCreatePalette } from "@entities/palette/model/useCreatePalette.tsx"
+import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
+import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
+import { useTypedSelector } from "@shared/hooks/storeHooks.ts"
+import { useGetMe } from "@entities/user/model/useGetMe.tsx"
+import { GetMe } from "@entities/user"
+
+interface Props {
+  isOpen: boolean
+  closeModal: () => void
+}
+
+export interface PaletteInfoFields {
+  name: string
+}
+
+const toastHideTime = 2 //sec
+export const SavePaletteModal: FC<Props> = ({ isOpen, closeModal }) => {
+
+
+  const { user } = useGetMe()
+  // const { user } = GetMe.useQueryState()
+
+
+  const colorsFromUrl = useGetColorsFromUrl()
+
+  const { createPalette, error, isError, isLoading } = useCreatePalette()
+
+
+  const [paletteInfo, setPaletteInfo] = useState<PaletteInfoFields>({ name: "" })
+  const [apiError, setApiError] = useState("")
+
+
+  const { reset: resetTimer, time } = useTimer({
+    timeGap: 1,
+    finalTime: 4,
+    callback: () => setApiError(""),
+  })
+
+
+  useEffect(() => {
+    if (!isError) return
+    setApiError(error?.message)
+    resetTimer()
+  }, [isError])
+
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault()
+
+    if (checkIfValid(paletteInfo.name) || !user) return
+
+    createPalette({
+      colorsHex: colorsFromUrl.map((color) => rgbToHex(color)),
+      name: paletteInfo.name,
+      userId: user.id,
+    }).catch((error) => setApiError(error.message))
+
+    e.target.reset()
+  }
+
+  const onInfoChange = ({ name }: PaletteInfoFields) => {
+    setPaletteInfo({ name })
+  }
+  return <SavePaletteLayout $top={"0px"} $left={"0px"} $isOpen={isOpen}>
+    <Header onCrossClick={closeModal} />
+    <Options />
+    <form onSubmit={onSubmit}>
+      <InfoForm onChange={onInfoChange} isError={!!apiError} />
+      <div className="btn-cont">
+        <Button type="submit" isLoading={isLoading} filled>Save</Button>
+      </div>
+    </form>
+    {createPortal(
+      <Toast isActive={!!apiError && time <= toastHideTime}>
+        {apiError}
+      </Toast>,
+      document.body,
+    )}
+  </SavePaletteLayout>
+}
+const SavePaletteLayout = styled(Modal)` //TODO extract the modal functionality to some abstraction
+    border-radius: 14px;
+    width: 100%;
+    max-width: 450px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    transition: 0.3s all;
+
+    display: flex;
+    flex-direction: column;
+
+
+    @media screen and (max-width: 500px) {
+        opacity: 1;
+        top: initial;
+        bottom: 0;
+        transform: translateX(-50%) translateY(${({ $isOpen }) => ($isOpen ? 0 : "100%")});
+        max-width: initial;
+    };
+
+
+    .btn-cont {
+        width: 100%;
+        padding: 16px;
+        box-shadow: rgba(0, 0, 0, 0.075) 0 -1px;
+
+        button {
+            height: 46px;
+            width: 100%;
+        }
+    }
+`

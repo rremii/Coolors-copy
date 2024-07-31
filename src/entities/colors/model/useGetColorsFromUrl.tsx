@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom"
-import { hexToRgb } from "@shared/helpers/HexToRgb.ts"
+import { hexToRgb } from "@shared/helpers/hexToRgb.ts"
 import { ColorType } from "@entities/colors/types.ts"
 
 export const useGetColorsFromUrl = (): ColorType[] => {

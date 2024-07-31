@@ -1,6 +1,6 @@
-import { AuthForm } from "@entities/auth/ui/components/AuthForm.tsx"
+import { AuthForm } from "@entities/auth/ui/AuthForm.tsx"
 import { AuthSubmitBtn } from "@entities/auth/ui/components/AuthSubmitBtn.tsx"
-import { FormField } from "@entities/auth/ui/components/FormField.tsx"
+import { FormField } from "@shared/ui/FormField.tsx"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useTimer } from "@shared/hooks/useTimer.tsx"
 import { Toast } from "@shared/ui/Toast.tsx"
@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form"
 import styled from "styled-components"
 import { signInSchema } from "../constants/signInValidateSchemas"
 import { useLogin } from "../model/useLogin"
+import { Button } from "@shared/ui/Button.tsx"
 
 interface FormFields {
   email: string
@@ -70,13 +71,13 @@ export const SignInForm = () => {
             register: { ...register("password") },
           }}
         />
-        <AuthSubmitBtn $isLoading={isLoading}>Sign in</AuthSubmitBtn>
+        <Button filled isLoading={isLoading}>Sign in</Button>
       </AuthForm>
       {createPortal(
         <Toast isActive={!!errors.root && time <= toastHideTime}>
           {errors.root?.message}
         </Toast>,
-        document.body
+        document.body,
       )}
     </FormContainer>
   )

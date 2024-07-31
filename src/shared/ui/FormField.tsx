@@ -1,4 +1,4 @@
-import { FC, ReactNode, useId } from "react"
+import { ChangeEvent, FC, ReactNode, useId } from "react"
 import styled from "styled-components"
 
 interface props {
@@ -9,11 +9,12 @@ interface props {
     beforeInput?: ReactNode
     placeholder?: string
     register?: object
+    onChange?: (e: ChangeEvent) => void
   }
 }
 
 export const FormField: FC<props> = ({ input, isError, label }) => {
-  const { placeholder, type, register } = input
+  const { placeholder, type, register, onChange, beforeInput } = input
 
   const labelId = useId()
 
@@ -22,8 +23,9 @@ export const FormField: FC<props> = ({ input, isError, label }) => {
       <label className={isError ? "error" : ""} htmlFor={label + "_" + labelId}>
         {label}
         <div className="input-cont">
-          {input.beforeInput}
+          {beforeInput}
           <input
+            onChange={onChange}
             id={label + "_" + labelId}
             className={isError ? "error" : ""}
             type={type}

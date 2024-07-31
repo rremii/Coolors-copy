@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { FC, useEffect, useState } from "react"
 import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
-import { hexToRgb } from "@shared/helpers/HexToRgb.ts"
+import { hexToRgb } from "@shared/helpers/hexToRgb.ts"
 import { replaceColorChanel } from "@shared/modules/RGBPicker/utils/replaceColorChanel.ts"
 
 interface Props {
@@ -103,7 +103,7 @@ export const ColorRange = styled.input`
     -webkit-appearance: none;
     background: rgba(255, 255, 255, 0.6);
         //background-image: ${({ $colorMin, $colorMax }) =>
-            `linear-gradient(to right, ${$colorMin}, ${$colorMax})`};
+  `linear-gradient(to right, ${$colorMin}, ${$colorMax})`};
     background-repeat: no-repeat;
     height: 10px;
     border-radius: 5px;

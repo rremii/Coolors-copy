@@ -6,19 +6,26 @@ import React, { FC, useEffect } from "react"
 import { createPortal } from "react-dom"
 import { useLocation, useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import { HeaderWithBurger } from "@widgets/Header/ui/HeaderWithBurger.tsx"
+import { createColors } from "@entities/colors/model/colorsSlice.ts"
+import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
 
 interface Props {
   children: React.ReactNode
 }
 
 const AppLayout: FC<Props> = ({ children }) => {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const location = useLocation()
 
   useAuth()
 
+
+  const location = useLocation()
+
   useEffect(() => {
     if (location.pathname.slice(1)) return
+
 
     const color1 = getRandomColor()
     const color2 = getRandomColor()
@@ -27,10 +34,12 @@ const AppLayout: FC<Props> = ({ children }) => {
     const hex2 = rgbToHex(color2).slice(1)
 
     navigate(`/${hex1}-${hex2}`)
-  }, [])
+    dispatch(createColors([color1, color2]))
+  }, [location.pathname])
 
   return (
     <LayoutStyles>
+      <HeaderWithBurger />
       {children}
       {createPortal(<AuthModal />, document.body)}
     </LayoutStyles>
@@ -38,12 +47,12 @@ const AppLayout: FC<Props> = ({ children }) => {
 }
 export default AppLayout
 const LayoutStyles = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  margin: 0 auto;
-  background-color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
+    margin: 0 auto;
+    background-color: white;
 `

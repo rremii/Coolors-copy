@@ -5,6 +5,7 @@ import {
 } from "@entities/auth/model/AuthSlice.ts"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
 import { useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 export const useAuth = () => {
   const dispatch = useAppDispatch()

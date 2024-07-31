@@ -16,7 +16,7 @@ export const $apiDefault = axios.create({
 $api.interceptors.request.use((config) => {
   if (config.headers !== null) {
     config.headers.Authorization = `Bearer ${localStorage.getItem(
-      "accessToken"
+      "accessToken",
     )}`
   }
   return config
@@ -36,15 +36,15 @@ $api.interceptors.response.use(
       try {
         const response = await axios.get<{ accessToken: string }>(
           API_URL + "auth/refresh",
-          { withCredentials: true }
+          { withCredentials: true },
         )
         localStorage.setItem("accessToken", response.data.accessToken)
         return await $api.request(originalRequest)
       } catch (e) {
-        window.location.href = "/"
+        // window.location.href = "/"
         localStorage.removeItem("accessToken")
       }
     }
     throw error
-  }
+  },
 )

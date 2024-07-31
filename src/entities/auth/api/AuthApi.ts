@@ -37,7 +37,7 @@ export const AuthApi = Api.injectEndpoints({
         data: { code },
       }),
     }),
-    signOut: build.mutation<DefaultResponse, void>({
+    logout: build.mutation<DefaultResponse, void>({
       query: () => ({
         url: "auth/logout",
         method: "DELETE",
@@ -56,10 +56,9 @@ export const AuthApi = Api.injectEndpoints({
 export const { refresh } = AuthApi.endpoints
 export const {
   useRefreshQuery,
-
   useRegisterMutation,
   useLoginMutation,
   useConfirmEmailMutation,
   useVerifyCodeMutation,
-  useSignOutMutation,
+  useLogoutMutation,
 } = AuthApi

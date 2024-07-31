@@ -10,6 +10,8 @@ export const useAddColorToUrl = (index: number) => {
   const newColor = useGetNewColorByIndex(index)
 
   const addColorToUrl = () => {
+    if (!newColor) return
+
     const newUrl = addNewColorToUrlStr(
       index,
       rgbToHex(newColor),

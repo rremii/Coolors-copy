@@ -1,10 +1,10 @@
 import { mergeColors } from "@shared/helpers/mergeColors.ts"
 import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
+import { ColorType } from "@entities/colors/types.ts"
 
-export const useGetNewColorByIndex = (index: number) => {
+export const useGetNewColorByIndex = (index: number): ColorType | null => {
   const allColors = useGetColorsFromUrl()
+  if (!allColors.length) return null
 
-  const neighborСolors = [allColors[index], allColors[index + 1]]
-
-  return mergeColors(neighborСolors)
+  return mergeColors([allColors[index], allColors[index + 1]])
 }
