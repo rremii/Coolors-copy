@@ -1,11 +1,14 @@
-import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
-import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
+import {
+  getLockedColorIndexes,
+  setHasMountAnimation,
+  updateColors,
+} from "@entities/colors/model/colorsSlice.ts"
 import { randomizeColors } from "@entities/colors/model/randomizeColors.ts"
-import { KeyCodes, useKeyPress } from "@shared/hooks/useKeyPress.tsx"
+import { useGetColorsFromUrl } from "@entities/colors/model/useGetColorsFromUrl.tsx"
 import { useSetColorsToUrl } from "@entities/colors/model/useSetColorsToUrl.tsx"
-import { getLockedColorIndexes, setHasMountAnimation, updateColors } from "@entities/colors/model/colorsSlice.ts"
+import { useAppDispatch, useTypedSelector } from "@shared/hooks/storeHooks.ts"
 
-export const useRandomizeColorsKeyPress = (keyCode: KeyCodes) => {
+export const useRandomizeColors = () => {
   const dispatch = useAppDispatch()
 
   const lockedColorsIndexes = useTypedSelector(getLockedColorIndexes)
@@ -21,5 +24,5 @@ export const useRandomizeColorsKeyPress = (keyCode: KeyCodes) => {
     dispatch(updateColors(newColors))
   }
 
-  useKeyPress(keyCode, randomize)
+  return { randomize }
 }

@@ -1,3 +1,4 @@
+import { useToast } from "@entities/toast/model/useToast"
 import { useAppDispatch } from "@shared/hooks/storeHooks"
 import { useEffect } from "react"
 import { useLoginMutation } from "../api/AuthApi"
@@ -9,6 +10,8 @@ export const useLogin = () => {
 
   const [login, { isLoading, isError, error, data: result, isSuccess }] =
     useLoginMutation()
+
+  const { addToast } = useToast()
 
   useEffect(() => {
     if (isSuccess) {
@@ -29,6 +32,7 @@ export const useLogin = () => {
 
   return {
     login: handleLogin,
+    isSuccess,
     isLoading,
     isError,
     error,

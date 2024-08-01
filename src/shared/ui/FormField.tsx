@@ -1,19 +1,19 @@
 import { ChangeEvent, FC, ReactNode, useId } from "react"
 import styled from "styled-components"
 
-interface props {
+interface Props {
   isError?: boolean
   label?: string
   input: {
     type: string
     beforeInput?: ReactNode
     placeholder?: string
-    register?: object
+    register?: object //TODO check how to fix
     onChange?: (e: ChangeEvent) => void
   }
 }
 
-export const FormField: FC<props> = ({ input, isError, label }) => {
+export const FormField: FC<Props> = ({ input, isError, label }) => {
   const { placeholder, type, register, onChange, beforeInput } = input
 
   const labelId = useId()

@@ -1,21 +1,18 @@
+import { setAuthRejected } from "@entities/auth"
+import { useLogoutMutation } from "@entities/auth/api/AuthApi.ts"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
-import { useLoginMutation, useLogoutMutation } from "@entities/auth/api/AuthApi.ts"
 import { useEffect } from "react"
-import { setAuthInitial, setAuthRejected, setAuthSuccess, toggleAuth } from "@entities/auth"
-import { LoginDto } from "@entities/auth/types.ts"
 
 export const useLogout = () => {
-
   const dispatch = useAppDispatch()
 
-  const [logout, { isLoading, isError, error, isSuccess }] =
-    useLogoutMutation()
+  const [logout, { isLoading, isError, error, isSuccess }] = useLogoutMutation()
 
   useEffect(() => {
     if (!isSuccess && !isError) return
 
     localStorage.removeItem("accessToken")
-    dispatch(setAuthInitial())
+    dispatch(setAuthRejected())
   }, [isLoading])
 
   const handleLogout = async () => {
@@ -29,5 +26,4 @@ export const useLogout = () => {
     error,
     isSuccess,
   }
-
 }

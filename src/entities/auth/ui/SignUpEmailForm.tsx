@@ -1,18 +1,16 @@
 import { AuthForm } from "@entities/auth/ui/AuthForm.tsx"
-import { AuthSubmitBtn } from "@entities/auth/ui/components/AuthSubmitBtn.tsx"
-import { FormField } from "@shared/ui/FormField.tsx"
+import { useToast } from "@entities/toast/model/useToast"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useAppDispatch } from "@shared/hooks/storeHooks.ts"
 import { useTimer } from "@shared/hooks/useTimer"
-import { Toast } from "@shared/ui/Toast"
+import { Button } from "@shared/ui/Button.tsx"
+import { FormField } from "@shared/ui/FormField.tsx"
 import { useEffect } from "react"
-import { createPortal } from "react-dom"
 import { useForm } from "react-hook-form"
 import styled from "styled-components"
 import { signUpEmailSchema } from "../constants/signUpValidateSchemas"
-import { setAuthStage, setUserInfo, toggleAuth } from "../model/AuthSlice"
+import { setAuthStage, setUserInfo } from "../model/AuthSlice"
 import { useConfirmEmail } from "../model/useConfirmEmail"
-import { Button } from "@shared/ui/Button.tsx"
 
 interface FormFields {
   email: string
@@ -32,12 +30,14 @@ export const SignUpEmailForm = () => {
     reset,
     setError,
     handleSubmit,
-    register, getValues,
+    register,
+    getValues,
     formState: { errors },
   } = useForm<FormFields>({
     resolver: yupResolver(signUpEmailSchema),
   })
 
+  const { addToast } = useToast()
   const { reset: resetTimer, time } = useTimer({
     timeGap: 1,
     finalTime: 4,
@@ -50,11 +50,20 @@ export const SignUpEmailForm = () => {
     reset()
     setError("root", { message: error?.message })
     resetTimer()
+    addToast({
+      content: error?.message || "couldn't send code",
+      type: "error",
+      duration: 2,
+    })
   }, [isError])
-
 
   useEffect(() => {
     if (!isSuccess) return
+    addToast({
+      content: "code was succesfuly sent",
+      type: "info",
+      duration: 2,
+    })
     dispatch(setUserInfo(getValues()))
     dispatch(setAuthStage("sign-up-code"))
   }, [isLoading])
@@ -95,15 +104,7 @@ export const SignUpEmailForm = () => {
         <Button filled isLoading={isLoading}>
           Create your first account
         </Button>
-        {/*<AuthSubmitBtn $isLoading={isLoading}>*/}
-        {/*</AuthSubmitBtn>*/}
       </AuthForm>
-      {createPortal(
-        <Toast isActive={!!errors.root && time <= toastHideTime}>
-          {errors.root?.message}
-        </Toast>,
-        document.body,
-      )}
     </FormContainer>
   )
 }
