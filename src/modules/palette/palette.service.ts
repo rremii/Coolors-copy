@@ -14,8 +14,8 @@ export class PaletteService {
     private readonly userService: UsersService,
   ) {}
 
-  async getAll(userId: number): Promise<Palette | null> {
-    return this.paletteRepository.findOne({
+  async getAll(userId: number): Promise<Palette[] | null> {
+    return this.paletteRepository.find({
       where: {
         user: {
           id: userId,
@@ -34,5 +34,13 @@ export class PaletteService {
     palette.user = user
 
     return await palette.save()
+  }
+
+  async delete(id: number): Promise<Palette> {
+    const palette = await this.paletteRepository.findOneBy({ id })
+
+    if (!palette) throw new BadRequestException(ApiError.PALETTE_NOT_FOUND)
+
+    return await palette.remove()
   }
 }

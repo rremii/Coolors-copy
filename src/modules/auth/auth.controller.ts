@@ -33,7 +33,6 @@ export class AuthController {
       httpOnly: true,
       sameSite: false,
       secure: true,
-
       maxAge: GetCookieExpTime(),
     })
     response.json({ accessToken })

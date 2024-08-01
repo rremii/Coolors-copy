@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   ParseIntPipe,
   Post,
   Query,
@@ -29,5 +31,12 @@ export class PaletteController {
   @UseGuards(AccessTokenGuard)
   createPalette(@Body() createPaletteDto: CreatePaletteDto) {
     return this.paletteService.create(createPaletteDto)
+  }
+
+  @Delete(":id")
+  @UsePipes(ValidationPipe)
+  @UseGuards(AccessTokenGuard)
+  deletePalette(@Param("id", ParseIntPipe) paletteId: number) {
+    return this.paletteService.delete(paletteId)
   }
 }

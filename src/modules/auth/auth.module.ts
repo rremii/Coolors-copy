@@ -5,7 +5,6 @@ import { UsersModule } from "../users/users.module"
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { User } from "../users/entities/user.entity"
 import { TokenModule } from "../token/token.module"
-import { GoogleStrategy } from "../../strategy/google.strategy"
 import { AccessTokenStrategy } from "../../strategy/access-token.strategy"
 import { RefreshTokenStrategy } from "../../strategy/refresh-token.strategy"
 import { ConfigService } from "@nestjs/config"
@@ -21,7 +20,6 @@ import { JwtModule } from "@nestjs/jwt"
   controllers: [AuthController],
   providers: [
     AuthService,
-    GoogleStrategy,
     AccessTokenStrategy,
     RefreshTokenStrategy,
     ConfigService,
