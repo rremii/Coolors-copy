@@ -1,5 +1,6 @@
 import { IPalette } from "@entities/palette/types.ts"
 import { useToast } from "@entities/toast/model/useToast"
+import { DeletePalette } from "@features/deletePalette/ui/DeletePalette"
 import { getContrastColor } from "@shared/helpers/getContrastColor.ts"
 import { hexToRgb } from "@shared/helpers/hexToRgb.ts"
 import { FC } from "react"
@@ -34,6 +35,7 @@ export const Palette: FC<Props> = ({ colors, name, id }) => {
       </div>
       <div className="info">
         <div className="name">{name}</div>
+        <DeletePalette id={id} />
       </div>
     </PaletteLayout>
   )

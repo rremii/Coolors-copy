@@ -1,7 +1,5 @@
-import { Api } from "@shared/api/config/Api"
-import { IUserInfo } from "@entities/User/types.ts"
 import { CreatePaletteDto, IPalette } from "@entities/palette/types.ts"
-import { DefaultResponse } from "@entities/auth/types.ts"
+import { Api } from "@shared/api/config/Api"
 
 export const paletteApi = Api.injectEndpoints({
   endpoints: (build) => ({
@@ -10,7 +8,7 @@ export const paletteApi = Api.injectEndpoints({
         url: "palette?userId=" + userId,
         method: "GET",
       }),
-      providesTags: ["palette"],
+      providesTags: ["Palette"],
     }),
     createPalette: build.mutation<IPalette, CreatePaletteDto>({
       query: (createPaletteDto) => ({
@@ -18,7 +16,14 @@ export const paletteApi = Api.injectEndpoints({
         method: "POST",
         data: createPaletteDto,
       }),
-      invalidateTags: ["palette"],
+      invalidatesTags: ["Palette"],
+    }),
+    deletePalette: build.mutation<IPalette, number>({
+      query: (paletteId) => ({
+        url: "palette/" + paletteId,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Palette"],
     }),
   }),
   overrideExisting: false,
@@ -27,4 +32,5 @@ export const paletteApi = Api.injectEndpoints({
 export const {
   useGetPalettesQuery,
   useCreatePaletteMutation,
+  useDeletePaletteMutation,
 } = paletteApi

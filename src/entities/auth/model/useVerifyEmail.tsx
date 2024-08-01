@@ -1,4 +1,4 @@
-import { useConfirmEmailMutation, useVerifyCodeMutation } from "../api/AuthApi"
+import { useVerifyCodeMutation } from "../api/AuthApi"
 
 export const useVerifyCode = () => {
   const [verifyCode, { isLoading, isError, isSuccess, error }] =
