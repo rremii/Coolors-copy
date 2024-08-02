@@ -3,7 +3,7 @@ import { useToast } from "@entities/toast/model/useToast"
 import Copy from "@icons/copy.svg?react"
 import { rgbToHex } from "@shared/helpers/rgbToHex.ts"
 import { SettingBtn } from "@shared/ui/SettingBtn.tsx"
-import { FC } from "react"
+import { FC, useEffect, useState } from "react"
 
 interface Props {
   isHidden?: boolean
@@ -23,7 +23,7 @@ export const CopyColor: FC<Props> = ({ isHidden, iconColor, color }) => {
           content: `Color ${rgbToHex(color)} is copied`,
         })
       )
-      .catch((err) =>
+      .catch(() =>
         addToast({ type: "info", content: "Couldn't copy the color" })
       )
   }

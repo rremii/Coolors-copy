@@ -4,7 +4,6 @@ import { SignUpCodeContent } from "@features/authModal/ui/Content/SignUpCodeCont
 import { SignUpEmailContent } from "@features/authModal/ui/Content/SignUpEmailContent.tsx"
 import { FC } from "react"
 
-//TODO ask if it worth using fabric | ui logic in redux
 export const authModalContentFabric = (authStage: AuthStages): FC => {
   switch (authStage) {
     case "sign-in":

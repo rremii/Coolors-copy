@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { RegisterDto } from "../types"
 
 type Menus = "sidebar"
 
@@ -10,11 +9,9 @@ interface initialState {
 }
 
 const initialState = {
-
   sidebar: {
     isOpen: false,
   },
-
 } as initialState
 
 export const UiSlice = createSlice({
@@ -30,8 +27,6 @@ export const UiSlice = createSlice({
   },
 })
 
-export const {
-  openMenu, closeMenu,
-} = UiSlice.actions
+export const { openMenu, closeMenu } = UiSlice.actions
 
 export const UiReducer = UiSlice.reducer

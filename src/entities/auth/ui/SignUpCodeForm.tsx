@@ -71,13 +71,13 @@ export const SignUpCodeForm = () => {
   const onSubmit = ({ code }: FormFields) => {
     if (isLoading) return
 
-    verifyCode(code).then(async () => {
-      await registerUser({
+    verifyCode(code).then(() => {
+      registerUser({
         name: userName,
         email: userEmail,
         password: userPassword,
         colorHex: "#" + code,
-      })
+      }).th
     })
   }
 

@@ -56,5 +56,5 @@ export const Api = createApi({
   reducerPath: "ApiRtk",
   baseQuery: axiosBaseQuery(),
   endpoints: () => ({}),
-  tagTypes: ["Palette"],
+  tagTypes: ["Palette", "User"],
 })

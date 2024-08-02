@@ -21,6 +21,7 @@ export const AuthApi = Api.injectEndpoints({
         method: "POST",
         data: loginData,
       }),
+      invalidatesTags: ["User"],
     }),
     confirmEmail: build.mutation<DefaultResponse, string>({
       query: (email) => ({
@@ -36,6 +37,7 @@ export const AuthApi = Api.injectEndpoints({
         method: "POST",
         data: { code },
       }),
+      invalidatesTags: ["User"],
     }),
     logout: build.mutation<DefaultResponse, void>({
       query: () => ({

@@ -1,5 +1,5 @@
 import { Api } from "@shared/api/config/Api"
-import { IUserInfo } from "@entities/User/types.ts"
+import { IUserInfo } from "../types"
 
 export const UserApi = Api.injectEndpoints({
   endpoints: (build) => ({
@@ -10,13 +10,9 @@ export const UserApi = Api.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
-
   }),
   overrideExisting: false,
 })
 export const { GetMe } = UserApi.endpoints
 
-export const {
-  useLazyGetMeQuery,
-  useGetMeQuery,
-} = UserApi
+export const { useLazyGetMeQuery, useGetMeQuery } = UserApi

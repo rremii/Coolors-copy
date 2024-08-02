@@ -35,7 +35,7 @@ const LogoutBtn = styled.button`
   border-radius: 10px;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.12);
+    background-color: rgba(0, 0, 0, 0.07);
   }
 
   @media screen and (max-width: 768px) {

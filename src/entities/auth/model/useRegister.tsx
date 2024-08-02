@@ -32,5 +32,6 @@ export const useRegister = () => {
     isLoading,
     isError,
     error,
+    isSuccess,
   }
 }

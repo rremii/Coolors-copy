@@ -5,7 +5,7 @@ export const useVerifyCode = () => {
     useVerifyCodeMutation()
 
   const handleVerify = async (code: string) => {
-    return await verifyCode(code).unwrap()
+    return verifyCode(code).unwrap()
   }
 
   return {
